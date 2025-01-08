@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class StudentTest < ActiveSupport::TestCase
   def setup
@@ -132,7 +132,7 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should be invalid if corresponding user record does not have user_type 'student'" do
     user = users(:one)
-    user.update(user_type: 'teacher')
+    user.update(user_type: "teacher")
     @student_one.user = user
     assert_not @student_one.valid?
   end
