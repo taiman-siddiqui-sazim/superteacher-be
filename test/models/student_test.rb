@@ -96,6 +96,7 @@ class StudentTest < ActiveSupport::TestCase
     @student_one.degree_name = "Computer Science"
     assert_not @student_one.valid?
   end
+
   test "should be invalid with a degree_type if education_level is college for student one" do
     @student_one.education_level = "college"
     @student_one.degree_type = "bachelors"
@@ -107,7 +108,7 @@ class StudentTest < ActiveSupport::TestCase
     @student_one.degree_name = "Computer Science"
     assert_not @student_one.valid?
   end
-
+  
   test "should be invalid with a medium if education_level is university for student two" do
     @student_two.education_level = "university"
     @student_two.medium = "english"
@@ -157,7 +158,7 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should be invalid if corresponding user record does not have user_type 'student'" do
     user = users(:one)
-    user.update(user_type: "teacher")
+    user.update(user_type: 'teacher')
     @student_one.user = user
     assert_not @student_one.valid?
   end
