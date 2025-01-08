@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 require "test_helper"
+=======
+require 'test_helper'
+>>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
 
 class StudentTest < ActiveSupport::TestCase
   def setup
@@ -19,6 +23,7 @@ class StudentTest < ActiveSupport::TestCase
     assert_not @student_one.valid?
   end
 
+<<<<<<< HEAD
   test "should be invalid with a phone longer than 15 characters for student one" do
     @student_one.phone = "a" * 16
     assert_not @student_one.valid?
@@ -26,6 +31,15 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should be invalid with an address longer than 100 characters for student one" do
     @student_one.address = "a" * 101
+=======
+  test "should be invalid with a phone longer than 25 characters for student one" do
+    @student_one.phone = "a" * 26
+    assert_not @student_one.valid?
+  end
+
+  test "should be invalid with an address longer than 50 characters for student one" do
+    @student_one.address = "a" * 51
+>>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
     assert_not @student_one.valid?
   end
 
@@ -59,6 +73,7 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should be invalid with an invalid year if education_level is school for student one" do
     @student_one.education_level = "school"
+<<<<<<< HEAD
     @student_one.year = 0
     assert_not @student_one.valid?
     @student_one.year = 11
@@ -74,6 +89,9 @@ class StudentTest < ActiveSupport::TestCase
   test "should be invalid with an invalid year if education_level is college for student one" do
     @student_one.education_level = "college"
     @student_one.year = 10
+=======
+    @student_one.year = 4
+>>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
     assert_not @student_one.valid?
     @student_one.year = 13
     assert_not @student_one.valid?
@@ -97,6 +115,7 @@ class StudentTest < ActiveSupport::TestCase
     assert_not @student_one.valid?
   end
 
+<<<<<<< HEAD
   test "should be invalid with a degree_type if education_level is college for student one" do
     @student_one.education_level = "college"
     @student_one.degree_type = "bachelors"
@@ -109,6 +128,8 @@ class StudentTest < ActiveSupport::TestCase
     assert_not @student_one.valid?
   end
 
+=======
+>>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
   test "should be invalid with a medium if education_level is university for student two" do
     @student_two.education_level = "university"
     @student_two.medium = "english"
@@ -133,9 +154,15 @@ class StudentTest < ActiveSupport::TestCase
     assert_not @student_two.valid?
   end
 
+<<<<<<< HEAD
   test "should be invalid with a degree_name longer than 50 characters if education_level is university for student two" do
     @student_two.education_level = "university"
     @student_two.degree_name = "a" * 51
+=======
+  test "should be invalid with a degree_name longer than 25 characters if education_level is university for student two" do
+    @student_two.education_level = "university"
+    @student_two.degree_name = "a" * 26
+>>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
     assert_not @student_two.valid?
   end
 
@@ -158,7 +185,11 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should be invalid if corresponding user record does not have user_type 'student'" do
     user = users(:one)
+<<<<<<< HEAD
     user.update(user_type: "teacher")
+=======
+    user.update(user_type: 'teacher')
+>>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
     @student_one.user = user
     assert_not @student_one.valid?
   end
