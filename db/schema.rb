@@ -83,7 +83,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_14_130645) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.check_constraint "user_type::text = ANY (ARRAY['student'::character varying, 'teacher'::character varying]::text[])", name: "user_type_check"
   end
-
+  
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "students", "users"

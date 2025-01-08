@@ -9,8 +9,12 @@ one:
   year: 10
   degree_type: 
   degree_name: 
+<<<<<<< HEAD
   semester_year:
   user_id: 1 
+=======
+  semester_year: 
+>>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
 
 two:
   id: 2
@@ -22,5 +26,8 @@ two:
   degree_type: "bachelors"
   degree_name: "Computer Science"
   semester_year: "Fall 2023"
+<<<<<<< HEAD
   user_id: 2
+=======
+>>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
   
