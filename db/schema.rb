@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_08_073058) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_08_104630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "students", force: :cascade do |t|
+    t.string "phone", limit: 25, null: false
+    t.string "address", limit: 50
+    t.string "education_level", null: false
+    t.string "medium"
+    t.integer "year"
+    t.string "degree_type"
+    t.string "degree_name", limit: 25
+    t.string "semester_year", limit: 25
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
@@ -25,4 +38,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_08_073058) do
     t.datetime "updated_at", null: false
     t.check_constraint "user_type::text = ANY (ARRAY['student'::character varying, 'teacher'::character varying]::text[])", name: "user_type_check"
   end
+
+  add_foreign_key "students", "users", column: "id"
 end

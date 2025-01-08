@@ -1,6 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   first_name: John
   last_name: Doe
   gender: male
@@ -9,9 +10,10 @@ one:
   user_type: student
 
 two:
+  id: 2
   first_name: Jane
   last_name: Smith
   gender: female
   email: jane.smith@example.com
   password: password123
-  user_type: teacher
+  user_type: student
