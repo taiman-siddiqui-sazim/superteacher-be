@@ -94,13 +94,4 @@ class UserTest < ActiveSupport::TestCase
     @user.user_type = "invalid_type"
     assert_not @user.valid?
   end
-<<<<<<< HEAD
-=======
-  
-  test "should be invalid without a student record if user_type is student" do
-    @user.user_type = 'student'
-    @user.student = nil
-    assert_not @user.valid?
-  end
 end
->>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
