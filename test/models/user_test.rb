@@ -49,6 +49,12 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  test "should be invalid with a duplicate email" do
+    duplicate_user = @user.dup
+    duplicate_user.email = @user.email
+    assert_not duplicate_user.valid?
+  end
+
   test "should be invalid without a password" do
     @user.password = nil
     assert_not @user.valid?
@@ -56,6 +62,26 @@ class UserTest < ActiveSupport::TestCase
 
   test "should be invalid with a short password" do
     @user.password = "short"
+    assert_not @user.valid?
+  end
+
+  test "should be invalid with a password missing a lowercase letter" do
+    @user.password = "PASSWORD1!"
+    assert_not @user.valid?
+  end
+
+  test "should be invalid with a password missing an uppercase letter" do
+    @user.password = "password1!"
+    assert_not @user.valid?
+  end
+
+  test "should be invalid with a password missing a digit" do
+    @user.password = "Password!"
+    assert_not @user.valid?
+  end
+
+  test "should be invalid with a password missing a special character" do
+    @user.password = "Password1"
     assert_not @user.valid?
   end
 

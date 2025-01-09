@@ -19,13 +19,13 @@ class StudentTest < ActiveSupport::TestCase
     assert_not @student_one.valid?
   end
 
-  test "should be invalid with a phone longer than 25 characters for student one" do
-    @student_one.phone = "a" * 26
+  test "should be invalid with a phone longer than 15 characters for student one" do
+    @student_one.phone = "a" * 16
     assert_not @student_one.valid?
   end
 
-  test "should be invalid with an address longer than 50 characters for student one" do
-    @student_one.address = "a" * 51
+  test "should be invalid with an address longer than 100 characters for student one" do
+    @student_one.address = "a" * 101
     assert_not @student_one.valid?
   end
 
@@ -59,7 +59,21 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should be invalid with an invalid year if education_level is school for student one" do
     @student_one.education_level = "school"
-    @student_one.year = 4
+    @student_one.year = 0
+    assert_not @student_one.valid?
+    @student_one.year = 11
+    assert_not @student_one.valid?
+  end
+
+  test "should be invalid without a year if education_level is college for student one" do
+    @student_one.education_level = "college"
+    @student_one.year = nil
+    assert_not @student_one.valid?
+  end
+
+  test "should be invalid with an invalid year if education_level is college for student one" do
+    @student_one.education_level = "college"
+    @student_one.year = 10
     assert_not @student_one.valid?
     @student_one.year = 13
     assert_not @student_one.valid?
@@ -79,6 +93,18 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should be invalid with a degree_name if education_level is school for student one" do
     @student_one.education_level = "school"
+    @student_one.degree_name = "Computer Science"
+    assert_not @student_one.valid?
+  end
+
+  test "should be invalid with a degree_type if education_level is college for student one" do
+    @student_one.education_level = "college"
+    @student_one.degree_type = "bachelors"
+    assert_not @student_one.valid?
+  end
+
+  test "should be invalid with a degree_name if education_level is college for student one" do
+    @student_one.education_level = "college"
     @student_one.degree_name = "Computer Science"
     assert_not @student_one.valid?
   end
@@ -107,9 +133,9 @@ class StudentTest < ActiveSupport::TestCase
     assert_not @student_two.valid?
   end
 
-  test "should be invalid with a degree_name longer than 25 characters if education_level is university for student two" do
+  test "should be invalid with a degree_name longer than 50 characters if education_level is university for student two" do
     @student_two.education_level = "university"
-    @student_two.degree_name = "a" * 26
+    @student_two.degree_name = "a" * 51
     assert_not @student_two.valid?
   end
 

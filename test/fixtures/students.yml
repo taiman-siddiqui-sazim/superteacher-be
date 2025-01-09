@@ -9,7 +9,8 @@ one:
   year: 10
   degree_type: 
   degree_name: 
-  semester_year: 
+  semester_year:
+  user_id: 1 
 
 two:
   id: 2
@@ -21,4 +22,5 @@ two:
   degree_type: "bachelors"
   degree_name: "Computer Science"
   semester_year: "Fall 2023"
+  user_id: 2
   

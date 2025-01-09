@@ -6,7 +6,7 @@ one:
   last_name: Doe
   gender: male
   email: john.doe@example.com
-  password: password123
+  password: Password1!
   user_type: student
 
 two:
@@ -15,5 +15,5 @@ two:
   last_name: Smith
   gender: female
   email: jane.smith@example.com
-  password: password123
+  password: Password2!
   user_type: student
