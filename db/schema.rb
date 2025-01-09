@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-ActiveRecord::Schema[8.0].define(version: 2025_01_09_205631) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_08_104630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,52 +30,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_09_205631) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "first_name", limit: 50, null: false
-    t.string "last_name", limit: 50, null: false
-=======
-ActiveRecord::Schema[8.0].define(version: 2025_01_08_073058) do
-=======
-ActiveRecord::Schema[8.0].define(version: 2025_01_08_104630) do
->>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
-
-  create_table "students", force: :cascade do |t|
-    t.string "phone", limit: 25, null: false
-    t.string "address", limit: 50
-    t.string "education_level", null: false
-    t.string "medium"
-    t.integer "year"
-    t.string "degree_type"
-    t.string "degree_name", limit: 25
-    t.string "semester_year", limit: 25
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
->>>>>>> 7aee881 (feat(st-3): create user model in database)
     t.string "gender", null: false
     t.string "email", null: false
     t.string "password", null: false
     t.string "user_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-<<<<<<< HEAD
+    t.string "password_digest"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.check_constraint "user_type::text = ANY (ARRAY['student'::character varying::text, 'teacher'::character varying::text])", name: "user_type_check"
-  end
-
-  add_foreign_key "students", "users"
-=======
     t.check_constraint "user_type::text = ANY (ARRAY['student'::character varying, 'teacher'::character varying]::text[])", name: "user_type_check"
   end
-<<<<<<< HEAD
->>>>>>> 7aee881 (feat(st-3): create user model in database)
-=======
-
+  
   add_foreign_key "students", "users", column: "id"
->>>>>>> 87ac406 (feat(st-3): create user and student models with validations and tests)
 end
