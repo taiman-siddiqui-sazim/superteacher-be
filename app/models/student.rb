@@ -33,8 +33,8 @@ class Student < ApplicationRecord
   end
 
   def user_record_must_be_student
-    if user && user.user_type != "student"
-      errors.add(:user, "must have a user_type of 'student'")
+    if user.nil? || user.user_type != "student"
+      errors.add(:user, "must exist and have a user_type of 'student'")
     end
   end
 end

@@ -6,7 +6,7 @@ one:
   last_name: Doe
   gender: male
   email: john.doe@example.com
-  password: Password1!
+  password_digest: <%= User.digest('Password1!') %>
   user_type: student
 
 two:
@@ -15,5 +15,6 @@ two:
   last_name: Smith
   gender: female
   email: jane.smith@example.com
-  password: Password2!
+  password_digest: <%= User.digest('Password2!') %>
   user_type: student
+  
