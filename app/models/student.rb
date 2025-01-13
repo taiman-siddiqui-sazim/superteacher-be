@@ -18,7 +18,7 @@ class Student < ApplicationRecord
   private
 
   def degree_fields_not_set_if_not_university
-    if education_level != 'university'
+    if education_level != "university"
       errors.add(:degree_type, "cannot be set if education level is not university") if degree_type.present?
       errors.add(:degree_name, "cannot be set if education level is not university") if degree_name.present?
       errors.add(:semester_year, "cannot be set if education level is not university") if semester_year.present?
