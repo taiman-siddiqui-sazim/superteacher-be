@@ -15,90 +15,90 @@ Doorkeeper.configure do
     end
   end
 
-  # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
-  # file then you need to declare this block in order to restrict access to the web interface for
-  # adding oauth authorized applications. In other case it will return 403 Forbidden response
-  # every time somebody will try to access the admin web interface.
-  #
-  # admin_authenticator do
-  #   # Put your admin authentication logic here.
-  #   # Example implementation:
-  #
-  #   if current_user
-  #     head :forbidden unless current_user.admin?
-  #   else
-  #     redirect_to sign_in_url
-  #   end
-  # end
+# If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
+# file then you need to declare this block in order to restrict access to the web interface for
+# adding oauth authorized applications. In other case it will return 403 Forbidden response
+# every time somebody will try to access the admin web interface.
+#
+# admin_authenticator do
+#   # Put your admin authentication logic here.
+#   # Example implementation:
+#
+#   if current_user
+#     head :forbidden unless current_user.admin?
+#   else
+#     redirect_to sign_in_url
+#   end
+# end
 
-  # You can use your own model classes if you need to extend (or even override) default
-  # Doorkeeper models such as `Application`, `AccessToken` and `AccessGrant.
-  #
-  # By default Doorkeeper ActiveRecord ORM uses its own classes:
-  #
-  # access_token_class "Doorkeeper::AccessToken"
-  # access_grant_class "Doorkeeper::AccessGrant"
-  # application_class "Doorkeeper::Application"
-  #
-  # Don't forget to include Doorkeeper ORM mixins into your custom models:
-  #
-  #   *  ::Doorkeeper::Orm::ActiveRecord::Mixins::AccessToken - for access token
-  #   *  ::Doorkeeper::Orm::ActiveRecord::Mixins::AccessGrant - for access grant
-  #   *  ::Doorkeeper::Orm::ActiveRecord::Mixins::Application - for application (OAuth2 clients)
-  #
-  # For example:
-  #
-  # access_token_class "MyAccessToken"
-  #
-  # class MyAccessToken < ApplicationRecord
-  #   include ::Doorkeeper::Orm::ActiveRecord::Mixins::AccessToken
-  #
-  #   self.table_name = "hey_i_wanna_my_name"
-  #
-  #   def destroy_me!
-  #     destroy
-  #   end
-  # end
+# You can use your own model classes if you need to extend (or even override) default
+# Doorkeeper models such as `Application`, `AccessToken` and `AccessGrant.
+#
+# By default Doorkeeper ActiveRecord ORM uses its own classes:
+#
+# access_token_class "Doorkeeper::AccessToken"
+# access_grant_class "Doorkeeper::AccessGrant"
+# application_class "Doorkeeper::Application"
+#
+# Don't forget to include Doorkeeper ORM mixins into your custom models:
+#
+#   *  ::Doorkeeper::Orm::ActiveRecord::Mixins::AccessToken - for access token
+#   *  ::Doorkeeper::Orm::ActiveRecord::Mixins::AccessGrant - for access grant
+#   *  ::Doorkeeper::Orm::ActiveRecord::Mixins::Application - for application (OAuth2 clients)
+#
+# For example:
+#
+# access_token_class "MyAccessToken"
+#
+# class MyAccessToken < ApplicationRecord
+#   include ::Doorkeeper::Orm::ActiveRecord::Mixins::AccessToken
+#
+#   self.table_name = "hey_i_wanna_my_name"
+#
+#   def destroy_me!
+#     destroy
+#   end
+# end
 
-  # Enables polymorphic Resource Owner association for Access Tokens and Access Grants.
-  # By default this option is disabled.
-  #
-  # Make sure you properly setup you database and have all the required columns (run
-  # `bundle exec rails generate doorkeeper:enable_polymorphic_resource_owner` and execute Rails
-  # migrations).
-  #
-  # If this option enabled, Doorkeeper will store not only Resource Owner primary key
-  # value, but also it's type (class name). See "Polymorphic Associations" section of
-  # Rails guides: https://guides.rubyonrails.org/association_basics.html#polymorphic-associations
-  #
-  # [NOTE] If you apply this option on already existing project don't forget to manually
-  # update `resource_owner_type` column in the database and fix migration template as it will
-  # set NOT NULL constraint for Access Grants table.
-  #
-  # use_polymorphic_resource_owner
+# Enables polymorphic Resource Owner association for Access Tokens and Access Grants.
+# By default this option is disabled.
+#
+# Make sure you properly setup you database and have all the required columns (run
+# `bundle exec rails generate doorkeeper:enable_polymorphic_resource_owner` and execute Rails
+# migrations).
+#
+# If this option enabled, Doorkeeper will store not only Resource Owner primary key
+# value, but also it's type (class name). See "Polymorphic Associations" section of
+# Rails guides: https://guides.rubyonrails.org/association_basics.html#polymorphic-associations
+#
+# [NOTE] If you apply this option on already existing project don't forget to manually
+# update `resource_owner_type` column in the database and fix migration template as it will
+# set NOT NULL constraint for Access Grants table.
+#
+# use_polymorphic_resource_owner
 
-  # If you are planning to use Doorkeeper in Rails 5 API-only application, then you might
-  # want to use API mode that will skip all the views management and change the way how
-  # Doorkeeper responds to a requests.
-  #
-  # api_only
+# If you are planning to use Doorkeeper in Rails 5 API-only application, then you might
+# want to use API mode that will skip all the views management and change the way how
+# Doorkeeper responds to a requests.
+#
+# api_only
 
-  # Enforce token request content type to application/x-www-form-urlencoded.
-  # It is not enabled by default to not break prior versions of the gem.
-  #
-  # enforce_content_type
+# Enforce token request content type to application/x-www-form-urlencoded.
+# It is not enabled by default to not break prior versions of the gem.
+#
+# enforce_content_type
 
-  # Authorization Code expiration time (default: 10 minutes).
-  #
-  # authorization_code_expires_in 10.minutes
+# Authorization Code expiration time (default: 10 minutes).
+#
+# authorization_code_expires_in 10.minutes
 
-  # Access token expiration time (default: 2 hours).
-  # If you set this to `nil` Doorkeeper will not expire the token and omit expires_in in response.
-  # It is RECOMMENDED to set expiration time explicitly.
-  # Prefer access_token_expires_in 100.years or similar,
-  # which would be functionally equivalent and avoid the risk of unexpected behavior by callers.
-  #
-  access_token_expires_in 2.hours
+# Access token expiration time (default: 2 hours).
+# If you set this to `nil` Doorkeeper will not expire the token and omit expires_in in response.
+# It is RECOMMENDED to set expiration time explicitly.
+# Prefer access_token_expires_in 100.years or similar,
+# which would be functionally equivalent and avoid the risk of unexpected behavior by callers.
+#
+access_token_expires_in 2.hours
 
   # Assign custom TTL for access tokens. Will be used instead of access_token_expires_in
   # option if defined. In case the block returns `nil` value Doorkeeper fallbacks to
@@ -369,7 +369,7 @@ Doorkeeper.configure do
   #   https://datatracker.ietf.org/doc/html/rfc6819#section-4.4.2
   #   https://datatracker.ietf.org/doc/html/rfc6819#section-4.4.3
   #
-  # grant_flows %w[authorization_code client_credentials]
+  grant_flows %w[password client_credentials]
 
   # Allows to customize OAuth grant flows that +each+ application support.
   # You can configure a custom block (or use a class respond to `#call`) that must
