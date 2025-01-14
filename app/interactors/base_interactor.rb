@@ -3,7 +3,6 @@ class BaseInteractor
 
     SOMETHING_WENT_WRONG = "Something went wrong"
     UNAUTHORIZED = "Unauthorized"
-    YOU_ARE_NOT_AUTHORIZED = "You are not authorized"
 
     def validate_params(required_params)
       missing_params = required_params.select { |param| context[param].nil? }
