@@ -11,7 +11,7 @@ gem "puma", ">= 5.0"
 gem "pg", ">= 0.18", "< 2.0"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
-gem "jwt"
+
 gem "doorkeeper"
 gem "interactor"
 gem "dotenv-rails", groups: [ :development, :test ]
@@ -36,7 +36,7 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
-# gem "rack-cors"
+gem "rack-cors"
 # gem 'rack-attack'
 
 group :development, :test do
