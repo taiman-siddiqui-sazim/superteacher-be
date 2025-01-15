@@ -96,7 +96,6 @@ class StudentTest < ActiveSupport::TestCase
     @student_one.degree_name = "Computer Science"
     assert_not @student_one.valid?
   end
-
   test "should be invalid with a degree_type if education_level is college for student one" do
     @student_one.education_level = "college"
     @student_one.degree_type = "bachelors"
