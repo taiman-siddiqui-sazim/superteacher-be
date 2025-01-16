@@ -19,6 +19,7 @@ class Users::AuthenticateUser < BaseInteractor
           expires_in: Doorkeeper.configuration.access_token_expires_in.to_i,
           scopes: ""
         )
+        context.user = user
         context.token = token.token
       else
         context.fail!(message: INVALID_CREDENTIALS)
