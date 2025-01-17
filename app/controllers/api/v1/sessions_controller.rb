@@ -1,6 +1,9 @@
 module Api
   module V1
     class SessionsController < ApplicationController
+      AUTHENTICATION_SUCCESSFUL = "Authentication successful"
+      UNAUTHORIZED = "Unauthorized"
+
       def create
         result = Users::AuthenticateUser.call(email: params[:email], password: params[:password])
 
@@ -9,22 +12,15 @@ module Api
           success_response(
             data: {
               accessToken: result.token,
-              user: {
-                id: user.id,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                gender: user.gender,
-                email: user.email,
-                user_type: user.user_type.upcase
-              }
+              user: UserSerializer.new.serialize(user)
             },
-            message: BaseInteractor::AUTHENTICATION_SUCCESSFUL
+            message: AUTHENTICATION_SUCCESSFUL
           )
         else
           error_response(
-            message: result.message,
+            message: [result.message],
             status: :unauthorized,
-            error: BaseInteractor::UNAUTHORIZED
+            error: UNAUTHORIZED
           )
         end
       end

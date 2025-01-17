@@ -1,6 +1,5 @@
 class Users::AuthenticateUser < BaseInteractor
   REQUIRED_PARAMS = %i[email password].freeze
-
   INVALID_CREDENTIALS = "Invalid credentials"
 
   delegate(*REQUIRED_PARAMS, to: :context)
