@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SessionsControllerTest < ActionDispatch::IntegrationTest
+class Api::V1::SessionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:one)
     @student = students(:one)
@@ -28,32 +28,32 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not login with invalid email" do
     post api_v1_login_url, params: { email: "invalid@example.com", password: "Password1!" }, as: :json
-    assert_response :unauthorized
-    assert_equal 401, json_response["data"]["statusCode"]
-    assert_equal "Invalid credentials", json_response["data"]["message"]
-    assert_equal "Unauthorized", json_response["data"]["error"]
+    assert_unauthorized_response
   end
 
   test "should not login with invalid password" do
     post api_v1_login_url, params: { email: @user.email, password: "wrongpassword" }, as: :json
-    assert_response :unauthorized
-    assert_equal 401, json_response["data"]["statusCode"]
-    assert_equal "Invalid credentials", json_response["data"]["message"]
-    assert_equal "Unauthorized", json_response["data"]["error"]
+    assert_unauthorized_response
   end
 
   test "should not login if student record does not exist" do
     @student.destroy
     post api_v1_login_url, params: { email: @user.email, password: "Password1!" }, as: :json
-    assert_response :unauthorized
-    assert_equal 401, json_response["data"]["statusCode"]
-    assert_equal "Invalid credentials", json_response["data"]["message"]
-    assert_equal "Unauthorized", json_response["data"]["error"]
+    assert_unauthorized_response
   end
 
   private
 
   def json_response
     JSON.parse(response.body)
+  end
+
+  def assert_unauthorized_response
+    assert_response :unauthorized
+    assert_not_nil response.body, "Response body should not be nil"
+    assert_not_nil json_response, "JSON response should not be nil"
+    assert_equal 401, json_response["statusCode"]
+    assert_equal [ "Invalid credentials" ], json_response["message"]
+    assert_equal "Unauthorized", json_response["error"]
   end
 end

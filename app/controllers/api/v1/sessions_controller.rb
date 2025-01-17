@@ -18,7 +18,7 @@ module Api
           )
         else
           error_response(
-            message: [result.message],
+            message: [ result.message ],
             status: :unauthorized,
             error: UNAUTHORIZED
           )
