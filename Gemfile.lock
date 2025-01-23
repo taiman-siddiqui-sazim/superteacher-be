@@ -172,7 +172,13 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.1-x86_64-linux-musl)
       racc (~> 1.4)
+    oj (3.16.9)
+      bigdecimal (>= 3.0)
+      ostruct (>= 0.2)
     ostruct (0.6.1)
+    panko_serializer (0.8.3)
+      activesupport
+      oj (> 3.11.0, < 4.0.0)
     parallel (1.26.3)
     parser (3.3.6.0)
       ast (~> 2.4.1)
@@ -335,10 +341,11 @@ DEPENDENCIES
   dotenv-rails
   interactor
   kamal
+  panko_serializer
   pg (>= 0.18, < 2.0)
   puma (>= 5.0)
-  rack-cors
   pundit
+  rack-cors
   rails (~> 8.0.1)
   rubocop-rails-omakase
   solid_cable

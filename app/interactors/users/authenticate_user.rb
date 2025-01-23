@@ -1,6 +1,5 @@
 class Users::AuthenticateUser < BaseInteractor
   REQUIRED_PARAMS = %i[email password].freeze
-
   INVALID_CREDENTIALS = "Invalid credentials"
 
   delegate(*REQUIRED_PARAMS, to: :context)
@@ -19,6 +18,7 @@ class Users::AuthenticateUser < BaseInteractor
           expires_in: Doorkeeper.configuration.access_token_expires_in.to_i,
           scopes: ""
         )
+        context.user = user
         context.token = token.token
       else
         context.fail!(message: INVALID_CREDENTIALS)
