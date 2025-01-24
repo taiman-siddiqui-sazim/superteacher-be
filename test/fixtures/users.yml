@@ -17,4 +17,13 @@ two:
   email: jane.smith@example.com
   password_digest: <%= UserAuthenticationService.digest('Password2!') %>
   user_type: student
+
+three:
+  id: 3
+  first_name: Jade
+  last_name: Smith
+  gender: male
+  email: jade.smith@example.com
+  password_digest: <%= UserAuthenticationService.digest('Password3!') %>
+  user_type: teacher
   

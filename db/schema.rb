@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_14_130645) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_24_015546) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -71,6 +71,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_14_130645) do
     t.index ["user_id"], name: "index_students_on_user_id"
   end
 
+  create_table "teachers", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "major_subject", limit: 50, null: false
+    t.string "subjects", default: [], null: false, array: true
+    t.string "highest_education", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_teachers_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", limit: 50, null: false
     t.string "last_name", limit: 50, null: false
@@ -87,4 +97,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_14_130645) do
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "students", "users"
+  add_foreign_key "teachers", "users"
 end

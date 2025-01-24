@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_one :student, foreign_key: :user_id, dependent: :destroy
-
+  has_one :teacher, foreign_key: :user_id, dependent: :destroy
+  
   has_secure_password
 
   validates :first_name, :last_name, :gender, :email, :user_type, presence: true
