@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_one :student, foreign_key: :user_id, dependent: :destroy
+  has_one :teacher, foreign_key: :user_id, dependent: :destroy
 
   has_secure_password
 
