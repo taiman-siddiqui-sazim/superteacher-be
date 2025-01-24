@@ -1,34 +1,32 @@
 require "test_helper"
 
 module Users
-  class CreateStudentTest < ActiveSupport::TestCase
-    fixtures :users, :students
+  class CreateTeacherTest < ActiveSupport::TestCase
+    fixtures :users, :teachers
 
     setup do
       @valid_user_params = {
-        first_name: "John",
+        first_name: "Jane",
         last_name: "Doe",
-        gender: "Male",
-        email: "new.john.doe@example.com",
+        gender: "Female",
+        email: "new.jane.doe@example.com",
         password: "Password1!",
         confirm_password: "Password1!",
-        user_type: "student",
-        phone: "1234567890",
-        address: "123 Main St",
-        education_level: "School",
-        medium: "English",
-        year: 5
+        user_type: "teacher",
+        major_subject: "Mathematics",
+        subjects: [ "Algebra", "Geometry" ],
+        highest_education: "PhD"
       }
     end
 
-    test "should create user and student with valid data" do
+    test "should create user and teacher with valid data" do
       result = Users::CreateUser.call(user_params: ActionController::Parameters.new(@valid_user_params))
 
       assert result.success?
       assert result.user.persisted?
-      assert result.student.persisted?
-      assert_equal "new.john.doe@example.com", result.user.email
-      assert_equal "1234567890", result.student.phone
+      assert result.teacher.persisted?
+      assert_equal "new.jane.doe@example.com", result.user.email
+      assert_equal "Mathematics", result.teacher.major_subject
     end
 
     test "should fail with password mismatch" do
@@ -47,12 +45,20 @@ module Users
       assert_includes result.errors, "User already exists"
     end
 
-    test "should fail with invalid student data and destroy user record" do
-      invalid_params = @valid_user_params.merge(phone: nil)
+    test "should fail with invalid user type and destroy user record" do
+      invalid_params = @valid_user_params.merge(user_type: "invalid_type")
       result = Users::CreateUser.call(user_params: ActionController::Parameters.new(invalid_params))
 
       assert result.failure?
-      assert_includes result.errors, "Phone can't be blank"
+      assert_not User.exists?(email: invalid_params[:email])
+    end
+
+    test "should fail with invalid teacher data and destroy user record" do
+      invalid_params = @valid_user_params.merge(major_subject: nil)
+      result = Users::CreateUser.call(user_params: ActionController::Parameters.new(invalid_params))
+
+      assert result.failure?
+      assert_includes result.errors, "Major subject can't be blank"
       assert_not User.exists?(email: invalid_params[:email])
     end
   end

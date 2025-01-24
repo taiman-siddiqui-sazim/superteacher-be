@@ -1,7 +1,8 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :doorkeeper_authorize!, except: [ :create_student ]
+      include ResponseHelper
+      before_action :doorkeeper_authorize!, except: [ :create_student, :create_teacher ]
 
       USER_DATA_RETRIEVED = "User data retrieved successfully"
       USER_DATA_NOT_RETRIEVED = "User data could not be retrieved"
@@ -33,6 +34,31 @@ module Api
           error_response(
             message: result.errors,
             status: :unprocessable_entity,
+            error: USER_REGISTRATION_FAILED
+          )
+        end
+      end
+
+      def create_teacher
+        result = Teachers::VerifyTeacher.call(email: params[:email], unique_code: params[:unique_code], user_params: params)
+
+        if result.success?
+          user_params = result.user_params.merge(user_type: "teacher")
+          create_user_result = Users::CreateUser.call(user_params: user_params)
+
+          if create_user_result.success?
+            handle_authentication(create_user_result.user.email, user_params[:password])
+          else
+            error_response(
+              message: create_user_result.errors,
+              status: :unprocessable_entity,
+              error: USER_REGISTRATION_FAILED
+            )
+          end
+        else
+          error_response(
+            message: result.message,
+            status: result.status,
             error: USER_REGISTRATION_FAILED
           )
         end
