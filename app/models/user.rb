@@ -11,5 +11,5 @@ class User < ApplicationRecord
   validates :password, format: { with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,128}\z/,
                                  message: "must include at least one lowercase letter, one uppercase letter, one digit,
                                  and one special character" }, allow_nil: true
-  validates :gender, inclusion: { in: [ "male", "female", "prefer not to say" ], message: "%{value} is not a valid gender" }
+  validates :gender, inclusion: { in: [ "male", "female", "other" ], message: "%{value} is not a valid gender" }
 end

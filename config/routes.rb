@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post "login", to: "sessions#create"
       get "users/me", to: "users#me"
+      post "register/student", to: "users#create_student"
     end
   end
 end
