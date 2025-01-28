@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-    default from: ENV["DEFAULT_FROM_EMAIL"]
+    default from: "no-reply <#{ENV['DEFAULT_FROM_EMAIL']}>"
 
     def otp_email(user, otp)
       @user = user
