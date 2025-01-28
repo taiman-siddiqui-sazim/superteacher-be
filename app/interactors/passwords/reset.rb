@@ -3,7 +3,7 @@ module Passwords
     include Interactor
 
     def call
-      user = User.find_by(email: context.email, otp: context.otp)
+      user = Users::User.find_by(email: context.email, otp: context.otp)
       if user && !user.otp_expired?
         user.password = context.password
         if user.valid?

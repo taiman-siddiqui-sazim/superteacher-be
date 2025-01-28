@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Api::V1::SessionsControllerTest < ActionDispatch::IntegrationTest
+class Api::V1::Authorize::SessionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:one)
     @student = students(:one)
@@ -13,7 +13,7 @@ class Api::V1::SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should login with valid credentials and student record" do
-    post api_v1_login_url, params: { email: @user.email, password: "Password1!" }, as: :json
+    post api_v1_authorize_login_url, params: { email: @user.email, password: "Password1!" }, as: :json
     assert_response :success
     assert_equal 200, json_response["statusCode"]
     assert_equal "Authentication successful", json_response["message"]
@@ -27,18 +27,18 @@ class Api::V1::SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not login with invalid email" do
-    post api_v1_login_url, params: { email: "invalid@example.com", password: "Password1!" }, as: :json
+    post api_v1_authorize_login_url, params: { email: "invalid@example.com", password: "Password1!" }, as: :json
     assert_unauthorized_response
   end
 
   test "should not login with invalid password" do
-    post api_v1_login_url, params: { email: @user.email, password: "wrongpassword" }, as: :json
+    post api_v1_authorize_login_url, params: { email: @user.email, password: "wrongpassword" }, as: :json
     assert_unauthorized_response
   end
 
   test "should not login if student record does not exist" do
     @student.destroy
-    post api_v1_login_url, params: { email: @user.email, password: "Password1!" }, as: :json
+    post api_v1_authorize_login_url, params: { email: @user.email, password: "Password1!" }, as: :json
     assert_unauthorized_response
   end
 

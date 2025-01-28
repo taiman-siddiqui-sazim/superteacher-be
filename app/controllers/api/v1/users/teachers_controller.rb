@@ -1,8 +1,9 @@
 module Api
-    module V1
+  module V1
+    module Users
       class TeachersController < ApplicationController
         def create_teacher_record(user, teacher_params)
-          result = Teachers::CreateTeacher.call(user: user, teacher_params: teacher_params)
+          result = ::Teachers::CreateTeacher.call(user: user, teacher_params: teacher_params)
 
           if result.success?
             { status: :ok, teacher: result.teacher }
@@ -20,4 +21,5 @@ module Api
         end
       end
     end
+  end
 end
