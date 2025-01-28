@@ -19,9 +19,9 @@ Rails.application.routes.draw do
       post "register/teacher", to: "users#create_teacher"
 
       # Password routes
-      post "passwords/forgot", to: "passwords#forgot"
+      post "passwords/forgot", to: "passwords#forgot_password"
       post "passwords/check_otp", to: "passwords#check_otp"
-      post "passwords/reset", to: "passwords#reset"
+      post "passwords/reset", to: "passwords#reset_password"
     end
   end
 end

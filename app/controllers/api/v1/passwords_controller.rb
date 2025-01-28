@@ -1,7 +1,7 @@
 module Api
     module V1
       class PasswordsController < ApplicationController
-        def forgot
+        def forgot_password
             result = Passwords::Forgot.call(email: params[:email])
             if result.success?
               render json: { message: result.message }, status: :ok
@@ -19,7 +19,7 @@ module Api
           end
         end
 
-        def reset
+        def reset_password
           result = Passwords::Reset.call(email: params[:email], otp: params[:otp], password: params[:password])
           if result.success?
             render json: { message: result.message }, status: :ok
