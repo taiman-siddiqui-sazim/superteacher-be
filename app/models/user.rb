@@ -13,4 +13,9 @@ class User < ApplicationRecord
                                  message: "must include at least one lowercase letter, one uppercase letter, one digit,
                                  and one special character" }, allow_nil: true
   validates :gender, inclusion: { in: [ "male", "female", "other" ], message: "%{value} is not a valid gender" }
+  validates :otp, format: { with: /\A\d{6}\z/, message: "must be a string containing 6 digits" }, allow_nil: true
+
+  def otp_expired?
+    otp_sent_at < 15.minutes.ago
+  end
 end
