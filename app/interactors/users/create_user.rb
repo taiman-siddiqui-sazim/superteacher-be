@@ -14,7 +14,7 @@ module Users
         return
       end
 
-      if User.exists?(email: user_params[:email])
+      if Users::User.exists?(email: user_params[:email])
         context.fail!(errors: [ USER_ALREADY_EXISTS_ERROR ])
         return
       end
@@ -22,7 +22,7 @@ module Users
       user_params[:gender] = user_params[:gender].downcase if user_params[:gender].present?
       user_params.delete(:confirm_password)
 
-      @user = User.new(user_params)
+      @user = Users::User.new(user_params)
 
       if @user.save
         context.user = @user
@@ -57,7 +57,7 @@ module Users
     end
 
     def create_student_record(user, student_params)
-      student_creation_response = Api::V1::StudentsController.new.create_student_record(user, student_params)
+      student_creation_response = Api::V1::Users::StudentsController.new.create_student_record(user, student_params)
 
       if student_creation_response[:status] == :ok
         context.student = student_creation_response[:student]
@@ -68,7 +68,7 @@ module Users
     end
 
     def create_teacher_record(user, teacher_params)
-      teacher_creation_response = Api::V1::TeachersController.new.create_teacher_record(user, teacher_params)
+      teacher_creation_response = Api::V1::Users::TeachersController.new.create_teacher_record(user, teacher_params)
 
       if teacher_creation_response[:status] == :ok
         context.teacher = teacher_creation_response[:teacher]

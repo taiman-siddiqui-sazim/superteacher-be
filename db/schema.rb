@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_24_043627) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_27_091139) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -100,6 +100,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_24_043627) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
+    t.string "otp"
+    t.datetime "otp_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.check_constraint "user_type::text = ANY (ARRAY['student'::character varying, 'teacher'::character varying]::text[])", name: "user_type_check"
   end

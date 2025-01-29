@@ -268,7 +268,10 @@ GEM
       rubocop-performance
       rubocop-rails
     ruby-progressbar (1.13.0)
+    ruby_http_client (3.5.5)
     securerandom (0.4.1)
+    sendgrid-ruby (6.7.0)
+      ruby_http_client (~> 3.4)
     solid_cable (3.0.5)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -348,6 +351,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 8.0.1)
   rubocop-rails-omakase
+  sendgrid-ruby
   solid_cable
   solid_cache
   solid_queue

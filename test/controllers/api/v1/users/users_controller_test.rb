@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
+class Api::V1::Users::UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:one)
     @application = Doorkeeper::Application.create!(
