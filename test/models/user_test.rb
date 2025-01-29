@@ -1,6 +1,8 @@
 require "test_helper"
 
-class UserTest < ActiveSupport::TestCase
+class Users::UserTest < ActiveSupport::TestCase
+  fixtures :users
+
   def setup
     @user = users(:one)
   end

@@ -1,8 +1,9 @@
 module Api
-    module V1
+  module V1
+    module Users
       class StudentsController < ApplicationController
         def create_student_record(user, student_params)
-          result = Students::CreateStudent.call(user: user, student_params: student_params)
+          result = ::Students::CreateStudent.call(user: user, student_params: student_params)
 
           if result.success?
             { status: :ok, student: result.student }
@@ -20,4 +21,5 @@ module Api
         end
       end
     end
+  end
 end

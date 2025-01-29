@@ -3,7 +3,7 @@ module Passwords
     include Interactor
 
     def call
-      user = User.find_by(email: context.email)
+      user = Users::User.find_by(email: context.email)
       if user
         otp = generate_otp
         user.update(otp: otp, otp_sent_at: Time.current)

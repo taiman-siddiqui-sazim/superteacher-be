@@ -1,4 +1,3 @@
-# filepath: test/mailers/previews/user_mailer_preview.rb
 class UserMailerPreview < ActionMailer::Preview
     def otp_email
       user = User.first || User.new(email: "test@example.com", first_name: "Test")
