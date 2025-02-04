@@ -1,6 +1,6 @@
 module Users
   class Student < ApplicationRecord
-    belongs_to :user
+    belongs_to :user, class_name: "Users::User"
 
     validates :phone, presence: true, length: { maximum: 15 }
     validates :address, length: { maximum: 100 }

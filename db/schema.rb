@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_27_091139) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_02_114908) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "classrooms", force: :cascade do |t|
+    t.string "title"
+    t.string "subject"
+    t.string "class_time"
+    t.string "days_of_week", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "teacher_id", null: false
+    t.index ["teacher_id"], name: "index_classrooms_on_teacher_id"
+  end
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
@@ -71,6 +82,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_27_091139) do
     t.index ["user_id"], name: "index_students_on_user_id"
   end
 
+  create_table "subjects", force: :cascade do |t|
+    t.string "subject", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "teachers", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "major_subject", limit: 50, null: false
@@ -106,6 +123,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_27_091139) do
     t.check_constraint "user_type::text = ANY (ARRAY['student'::character varying, 'teacher'::character varying]::text[])", name: "user_type_check"
   end
 
+  add_foreign_key "classrooms", "users", column: "teacher_id"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "students", "users"

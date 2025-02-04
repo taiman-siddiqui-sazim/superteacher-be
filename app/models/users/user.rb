@@ -1,7 +1,8 @@
 module Users
   class User < ApplicationRecord
-    has_one :student, foreign_key: :user_id, dependent: :destroy
-    has_one :teacher, foreign_key: :user_id, dependent: :destroy
+    has_one :student, class_name: "Users::Student", foreign_key: :user_id, dependent: :destroy
+    has_one :teacher, class_name: "Users::Teacher", foreign_key: :user_id, dependent: :destroy
+    has_many :classrooms, class_name: "Classrooms::Classroom", foreign_key: :teacher_id, dependent: :destroy
 
     has_secure_password
 
@@ -17,7 +18,7 @@ module Users
     validates :otp, format: { with: /\A\d{6}\z/, message: "must be a string containing 6 digits" }, allow_nil: true
 
     def otp_expired?
-      otp_sent_at < 15.minutes.ago
+      otp_sent_at < 5.minutes.ago
     end
   end
 end
