@@ -24,11 +24,16 @@ Rails.application.routes.draw do
         post "passwords/reset", to: "passwords#reset_password"
       end
 
+     # Classroom routes
+     namespace :classrooms do
+        get ":classroom_id/unenrolled_students", to: "classroom_students#unenrolled_students"
+        post ":classroom_id/enroll_student", to: "classroom_students#enroll_student"
 
-      post "classrooms/teacher", to: "classrooms#create"
-      get "classrooms", to: "classrooms#get_classrooms"
-      put "classrooms/:id", to: "classrooms#update_classroom"
-      delete "classrooms/:id", to: "classrooms#delete_classroom"
+        post "teacher", to: "classrooms#create"
+        get "", to: "classrooms#get_classrooms"
+        put ":id", to: "classrooms#update_classroom"
+        delete ":id", to: "classrooms#delete_classroom"
+      end
     end
   end
 end

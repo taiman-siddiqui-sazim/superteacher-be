@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_02_114908) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_05_133943) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "classroom_students", force: :cascade do |t|
+    t.bigint "classroom_id", null: false
+    t.bigint "student_id", null: false
+    t.date "enroll_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["classroom_id"], name: "index_classroom_students_on_classroom_id"
+    t.index ["student_id"], name: "index_classroom_students_on_student_id"
+  end
 
   create_table "classrooms", force: :cascade do |t|
     t.string "title"
@@ -123,6 +133,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_02_114908) do
     t.check_constraint "user_type::text = ANY (ARRAY['student'::character varying, 'teacher'::character varying]::text[])", name: "user_type_check"
   end
 
+  add_foreign_key "classroom_students", "classrooms"
+  add_foreign_key "classroom_students", "students"
   add_foreign_key "classrooms", "users", column: "teacher_id"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
