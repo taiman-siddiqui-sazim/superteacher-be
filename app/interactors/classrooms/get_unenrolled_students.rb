@@ -7,7 +7,7 @@ module Classrooms
       enrolled_students = Classrooms::ClassroomStudent.where(classroom_id: classroom_id).pluck(:student_id)
       unenrolled_students = Users::Student.joins(:user)
                                           .where.not(id: enrolled_students)
-                                          .select('users.id, users.first_name, users.last_name, users.email')
+                                          .select("users.id, users.first_name, users.last_name, users.email")
 
       context.unenrolled_students = unenrolled_students
     rescue => e
