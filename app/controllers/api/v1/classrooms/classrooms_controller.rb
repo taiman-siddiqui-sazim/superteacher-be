@@ -66,6 +66,16 @@ module Api
           end
         end
 
+        def get_classroom_teacher
+          result = ::Classrooms::GetClassroomTeacher.call(classroom_id: params[:classroom_id])
+
+          if result.success?
+            success_response(data: result.teacher, message: "Teacher retrieved successfully")
+          else
+            error_response(message: result.message, status: result.status, error: "Teacher retrieval failed")
+          end
+        end
+
         private
 
         def classroom_params

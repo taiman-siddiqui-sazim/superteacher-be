@@ -28,11 +28,15 @@ Rails.application.routes.draw do
      namespace :classrooms do
         get ":classroom_id/unenrolled_students", to: "classroom_students#unenrolled_students"
         post ":classroom_id/enroll_student", to: "classroom_students#enroll_student"
+        get ":classroom_id/students", to: "classroom_students#students_in_classroom"
+        delete ":classroom_id/unenroll_student/:user_id", to: "classroom_students#unenroll_student"
+        get "student_classes", to: "classroom_students#student_classes"
 
         post "teacher", to: "classrooms#create"
         get "", to: "classrooms#get_classrooms"
         put ":id", to: "classrooms#update_classroom"
         delete ":id", to: "classrooms#delete_classroom"
+        get ":classroom_id/teacher", to: "classrooms#get_classroom_teacher"
       end
     end
   end

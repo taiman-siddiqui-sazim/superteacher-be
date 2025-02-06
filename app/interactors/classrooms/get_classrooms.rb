@@ -1,10 +1,10 @@
 module Classrooms
-    class GetClassrooms
-      include Interactor
+  class GetClassrooms
+    include Interactor
 
-      def call
-        teacher_id = context.teacher_id
-        classrooms = Classrooms::Classroom.where(teacher_id: teacher_id)
+    def call
+      teacher_id = context.teacher_id
+      classrooms = Classrooms::Classroom.where(teacher_id: teacher_id)
 
         if classrooms.any?
           context.classrooms = classrooms.map do |classroom|

@@ -1,8 +1,8 @@
 module Users
   class Student < ApplicationRecord
     belongs_to :user, class_name: "Users::User"
-    has_many :classroom_students, foreign_key: :student_id, dependent: :destroy
-    has_many :classrooms, through: :classroom_students, source: :classroom
+    has_many :classroom_students, class_name: "Classrooms::ClassroomStudent", foreign_key: :student_id, dependent: :destroy
+    has_many :classrooms, through: :classroom_students, class_name: "Classrooms::Classroom", source: :classroom
 
     validates :phone, presence: true, length: { maximum: 15 }
     validates :address, length: { maximum: 100 }
