@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_05_133943) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_08_114000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "assignments", force: :cascade do |t|
+    t.string "title"
+    t.text "instruction"
+    t.string "file_url"
+    t.date "due_date"
+    t.bigint "classroom_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["classroom_id"], name: "index_assignments_on_classroom_id"
+  end
 
   create_table "classroom_students", force: :cascade do |t|
     t.bigint "classroom_id", null: false
@@ -33,6 +44,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_05_133943) do
     t.datetime "updated_at", null: false
     t.bigint "teacher_id", null: false
     t.index ["teacher_id"], name: "index_classrooms_on_teacher_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "content", null: false
+    t.string "sender_type", null: false
+    t.integer "sender_id", null: false
+    t.bigint "classroom_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["classroom_id"], name: "index_messages_on_classroom_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -133,9 +154,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_05_133943) do
     t.check_constraint "user_type::text = ANY (ARRAY['student'::character varying, 'teacher'::character varying]::text[])", name: "user_type_check"
   end
 
+  add_foreign_key "assignments", "classrooms"
   add_foreign_key "classroom_students", "classrooms"
   add_foreign_key "classroom_students", "students"
   add_foreign_key "classrooms", "users", column: "teacher_id"
+  add_foreign_key "messages", "classrooms"
+  add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "students", "users"

@@ -38,6 +38,13 @@ Rails.application.routes.draw do
         delete ":id", to: "classrooms#delete_classroom"
         get ":classroom_id/teacher", to: "classrooms#get_teacher_by_classroom_id"
       end
+
+      namespace :classwork do
+        post "file_uploads", to: "file_uploads#create"
+        post "assignments", to: "assignments#create"
+        post "assignments/:id/update_file", to: "assignments#update_file"
+        delete "assignments/:id", to: "assignments#delete_assignment"
+      end
     end
   end
 end

@@ -3,6 +3,7 @@ module Classrooms
     belongs_to :user, class_name: "Users::User", foreign_key: :teacher_id
     has_many :classroom_students, class_name: "Classrooms::ClassroomStudent", dependent: :destroy
     has_many :students, through: :classroom_students, class_name: "Users::Student", source: :student
+    has_many :assignments, class_name: "Classwork::Assignment", dependent: :destroy
 
     validates :title, presence: true, length: { in: 1..100 }
     validates :subject, presence: true
