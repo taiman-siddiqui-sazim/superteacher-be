@@ -41,35 +41,51 @@ module Classwork
     def upload_to_s3
       return context.fail!(message: "Missing file or URL") unless context.file && context.file_url
 
-      uri = URI.parse(context.file_url)
-      request = Net::HTTP::Put.new(uri)
-      request.body = context.file.read
-      request["Content-Type"] = context.file.content_type
+      begin
+        clean_url = clean_presigned_url(context.file_url)
+        uri = URI.parse(clean_url)
+        request = Net::HTTP::Put.new(uri)
+        request.body = context.file.read
+        request["Content-Type"] = context.file.content_type
 
-      http = Net::HTTP.new(uri.host, uri.port)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = false if uri.host == "localhost"
 
-      if uri.host == "localhost"
-        http.use_ssl = false
-      else
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        response = http.request(request)
+
+        if response.is_a?(Net::HTTPSuccess)
+          context.file_url = clean_url.split("?").first
+        else
+          context.fail!(message: "Upload failed - Status: #{response.code}, Body: #{response.body}")
+        end
+
+      rescue URI::InvalidURIError => e
+        context.fail!(message: "Invalid URL format: #{e.message}")
+      rescue StandardError => e
+        context.fail!(message: "Upload failed: #{e.message}")
       end
+    end
 
-      response = http.request(request)
-
-      context.fail!(message: "Upload failed") unless response.is_a?(Net::HTTPSuccess)
-      context.file_url = context.file_url.split("?").first
+    def clean_presigned_url(url)
+      url.gsub('\\u0026', "&")
+         .gsub('\\\\&', "&")
+         .gsub('\\&', "&")
+         .gsub("%3A", ":")
+         .gsub("%2F", "/")
     end
 
     def delete_file
       return context.fail!(message: "Missing file URL") unless context.file_url
 
       begin
-        key = URI(context.file_url).path.sub(/^\/[^\/]+\//, "")
+        uri = URI(context.file_url)
+        decoded_path = CGI.unescape(uri.path)
+        key = decoded_path.sub(/^\/[^\/]+\//, "")
+
         object = S3_BUCKET.object(key)
 
         unless object.exists?
-          return context.fail!(message: "File does not exist")
+          return context.fail!(message: "File does not exist for key: #{key}")
         end
 
         object.delete

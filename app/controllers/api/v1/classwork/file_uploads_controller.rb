@@ -12,7 +12,7 @@ module Api
         FILE_DELETE_SUCCESS = "File deleted successfully".freeze
         FILE_DELETE_FAIL = "File deletion failed".freeze
 
-        def create
+        def create_url
           result = ::Classwork::FileUploads.call(
             files: file_params[:files],
             action: :generate_presigned_url
@@ -32,7 +32,7 @@ module Api
           end
         end
 
-        def upload
+        def upload_file
           result = ::Classwork::FileUploads.call(
             file: params[:file],
             file_url: params[:file_url],
@@ -54,7 +54,7 @@ module Api
           end
         end
 
-        def delete
+        def delete_file
           result = ::Classwork::FileUploads.call(
             file_url: params[:file_url],
             action: :delete_file

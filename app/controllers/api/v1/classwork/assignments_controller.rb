@@ -13,7 +13,7 @@ module Api
         ASSIGNMENT_DELETE_SUCCESS = "Assignment deleted successfully".freeze
         ASSIGNMENT_DELETE_FAIL = "Assignment deletion failed".freeze
 
-        def create
+        def create_assignment
           result = ::Classwork::CreateAssignment.call(
             params: assignment_params,
             classroom_id: params[:classroom_id]
@@ -31,7 +31,7 @@ module Api
             file: params[:file],
             file_url: params[:file_url]
           })
-          upload_result = file_uploads_controller.upload
+          upload_result = file_uploads_controller.upload_file
 
           unless upload_result[:success?]
             result.assignment.destroy!
@@ -57,7 +57,7 @@ module Api
           file_uploads_controller = initialize_file_uploads_controller({
             file_url: assignment.file_url
           })
-          delete_result = file_uploads_controller.delete
+          delete_result = file_uploads_controller.delete_file
 
           unless delete_result[:success?]
             return error_response(
@@ -85,23 +85,10 @@ module Api
           old_file_url = assignment.file_url
 
           file_uploads_controller = initialize_file_uploads_controller({
-            files: [ { name: params[:file].original_filename, type: params[:file].content_type } ]
-          })
-          presigned_result = file_uploads_controller.create
-
-          unless presigned_result[:success?]
-            return error_response(
-              message: presigned_result[:message],
-              status: :unprocessable_entity,
-              error: FILE_UPDATE_FAIL
-            )
-          end
-
-          file_uploads_controller = initialize_file_uploads_controller({
             file: params[:file],
-            file_url: presigned_result[:data][:presigned_urls].first[:signedUrl]
+            file_url: params[:file_url]
           })
-          upload_result = file_uploads_controller.upload
+          upload_result = file_uploads_controller.upload_file
 
           unless upload_result[:success?]
             return error_response(
@@ -111,14 +98,14 @@ module Api
             )
           end
 
-          delete_result = ::Classwork::FileUploads.call(
-            file_url: old_file_url,
-            action: :delete_file
-          )
-
           assignment.update!(file_url: upload_result[:data][:file_url])
 
-          message = delete_result.success? ?
+          file_uploads_controller = initialize_file_uploads_controller({
+            file_url: old_file_url
+          })
+          delete_result = file_uploads_controller.delete_file
+
+          message = delete_result[:success?] ?
             FILE_UPDATE_SUCCESS :
             "#{FILE_UPDATE_SUCCESS} (Warning: Failed to delete old file at #{old_file_url})"
 
