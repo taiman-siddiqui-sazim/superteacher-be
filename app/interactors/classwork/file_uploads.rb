@@ -1,6 +1,7 @@
 module Classwork
   class FileUploads
     include Interactor
+    include Constants::ClassworkConstants
 
     def call
       case context.action
@@ -39,7 +40,7 @@ module Classwork
     end
 
     def upload_to_s3
-      return context.fail!(message: "Missing file or URL") unless context.file && context.file_url
+      return context.fail!(message: MISSING_FILE_OR_URL) unless context.file && context.file_url
 
       begin
         clean_url = clean_presigned_url(context.file_url)
@@ -56,13 +57,13 @@ module Classwork
         if response.is_a?(Net::HTTPSuccess)
           context.file_url = clean_url.split("?").first
         else
-          context.fail!(message: "Upload failed - Status: #{response.code}, Body: #{response.body}")
+          context.fail!(message: "#{FILE_UPLOAD_FAIL} - Status: #{response.code}, Body: #{response.body}")
         end
 
       rescue URI::InvalidURIError => e
-        context.fail!(message: "Invalid URL format: #{e.message}")
+        context.fail!(message: "#{INVALID_URL_FORMAT}: #{e.message}")
       rescue StandardError => e
-        context.fail!(message: "Upload failed: #{e.message}")
+        context.fail!(message: "#{FILE_UPLOAD_FAIL}: #{e.message}")
       end
     end
 
@@ -75,7 +76,7 @@ module Classwork
     end
 
     def delete_file
-      return context.fail!(message: "Missing file URL") unless context.file_url
+      return context.fail!(message: MISSING_FILE_URL) unless context.file_url
 
       begin
         uri = URI(context.file_url)
@@ -85,13 +86,13 @@ module Classwork
         object = S3_BUCKET.object(key)
 
         unless object.exists?
-          return context.fail!(message: "File does not exist for key: #{key}")
+          return context.fail!(message: "#{FILE_NOT_EXIST}: #{key}")
         end
 
         object.delete
         context.success = true
       rescue Aws::S3::Errors::ServiceError => e
-        context.fail!(message: "Failed to delete file: #{e.message}")
+        context.fail!(message: "#{FILE_DELETE_FAIL}: #{e.message}")
       end
     end
   end

@@ -3,14 +3,8 @@ module Api
     module Classwork
       class FileUploadsController < ApplicationController
         include ResponseHelper
+        include Constants::ClassworkConstants
         before_action :doorkeeper_authorize!
-
-        PRESIGNED_URL_GENERATION_SUCCESS = "Presigned URLs generated successfully".freeze
-        URL_GENERATION_FAIL = "URL generation failed".freeze
-        FILE_UPLOAD_SUCCESS = "File uploaded successfully".freeze
-        FILE_UPLOAD_FAIL = "File upload failed".freeze
-        FILE_DELETE_SUCCESS = "File deleted successfully".freeze
-        FILE_DELETE_FAIL = "File deletion failed".freeze
 
         def create_url
           result = ::Classwork::FileUploads.call(

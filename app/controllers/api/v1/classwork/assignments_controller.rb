@@ -3,15 +3,8 @@ module Api
     module Classwork
       class AssignmentsController < ApplicationController
         include ResponseHelper
+        include Constants::ClassworkConstants
         before_action :doorkeeper_authorize!
-
-        ASSIGNMENT_CREATION_SUCCESS = "Assignment created successfully".freeze
-        ASSIGNMENT_CREATION_FAIL = "Assignment creation failed".freeze
-        FILE_UPDATE_SUCCESS = "Assignment file updated successfully".freeze
-        FILE_UPDATE_FAIL = "Assignment file update failed".freeze
-        INVALID_FILE_URL = "Provided file URL does not match assignment".freeze
-        ASSIGNMENT_DELETE_SUCCESS = "Assignment deleted successfully".freeze
-        ASSIGNMENT_DELETE_FAIL = "Assignment deletion failed".freeze
 
         def create_assignment
           result = ::Classwork::CreateAssignment.call(
@@ -49,7 +42,7 @@ module Api
         def delete_assignment
           assignment = ::Classwork::Assignment.find_by(id: params[:id])
           return error_response(
-            message: "Assignment not found",
+            message: ASSIGNMENT_NOT_FOUND,
             status: :not_found,
             error: ASSIGNMENT_DELETE_FAIL
           ) unless assignment
@@ -77,7 +70,7 @@ module Api
         def update_file
           assignment = ::Classwork::Assignment.find_by(id: params[:id])
           return error_response(
-            message: "Assignment not found",
+            message: ASSIGNMENT_NOT_FOUND,
             status: :not_found,
             error: ASSIGNMENT_CREATION_FAIL
           ) unless assignment
