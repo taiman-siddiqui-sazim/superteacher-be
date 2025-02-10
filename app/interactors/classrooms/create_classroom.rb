@@ -17,5 +17,5 @@ module Classrooms
         context.fail!(message: classroom.errors.full_messages, status: :unprocessable_entity)
       end
     end
-  end
+    end
 end
