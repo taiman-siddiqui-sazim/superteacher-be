@@ -9,4 +9,13 @@ class UserMailer < ApplicationMailer
         format.text { render "otp_email" }
       end
     end
+
+    def enroll_email(user, classroom)
+      @user = user
+      @classroom = classroom
+      mail(to: @user.email, subject: "You have been enrolled in a new classroom") do |format|
+        format.html { render "enroll_email" }
+        format.text { render "enroll_email" }
+      end
+    end
 end

@@ -1,0 +1,30 @@
+module Constants
+    module ClassroomConstants
+      STUDENT_RETRIEVE_SUCCESS = "Students retrieved successfully".freeze
+      STUDENT_RETRIEVE_FAIL = "Student retrieval failed".freeze
+      STUDENT_ENROLLMENT_SUCCESS = "Student enrolled successfully".freeze
+      STUDENT_ENROLLMENT_FAIL = "Student enrollment failed".freeze
+      CLASSROOM_RETRIEVE_SUCCESS = "Classrooms retrieved successfully".freeze
+      CLASSROOM_RETRIEVE_FAIL = "Classroom retrieval failed".freeze
+      NO_STUDENTS_FOUND = "No students found".freeze
+      USER_NOT_FOUND = "User not found".freeze
+      STUDENT_NOT_FOUND = "Student record not found".freeze
+      STUDENT_UNENROLLMENT_SUCCESS = "Student unenrolled successfully".freeze
+      STUDENT_UNENROLLMENT_FAIL = "Student unenrollment failed".freeze
+
+      CLASSROOM_CREATION_SUCCESS = "Classroom created successfully".freeze
+      CLASSROOM_CREATION_FAIL = "Classroom creation failed".freeze
+      CLASSROOMS_RETRIEVED_SUCCESS = "Classrooms retrieved successfully".freeze
+      CLASSROOMS_RETRIEVAL_FAIL = "Classrooms retrieval failed".freeze
+      CLASSROOM_UPDATE_SUCCESS = "Classroom updated successfully".freeze
+      CLASSROOM_UPDATE_FAIL = "Classroom update failed".freeze
+      CLASSROOM_DELETION_SUCCESS = "Classroom deleted successfully".freeze
+      CLASSROOM_DELETION_FAIL = "Classroom deletion failed".freeze
+      CLASSROOM_NOT_FOUND = "Classroom not found".freeze
+      NO_CLASSROOMS_FOUND = "No classrooms found".freeze
+
+      TEACHER_NOT_FOUND = "Teacher not found".freeze
+      TEACHER_RETRIEVAL_SUCCESS = "Teacher retrieved successfully".freeze
+      TEACHER_RETRIEVAL_FAIL = "Teacher retrieval failed".freeze
+    end
+end
