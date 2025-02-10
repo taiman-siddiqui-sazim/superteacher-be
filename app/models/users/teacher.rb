@@ -1,6 +1,6 @@
 module Users
   class Teacher < ApplicationRecord
-    belongs_to :user
+    belongs_to :user, class_name: "Users::User"
 
     validates :major_subject, presence: true, length: { maximum: 50 }
     validates :subjects, presence: true, length: { minimum: 1 }

@@ -23,6 +23,12 @@ Rails.application.routes.draw do
         post "passwords/check_otp", to: "passwords#check_otp"
         post "passwords/reset", to: "passwords#reset_password"
       end
+
+
+      post "classrooms/teacher", to: "classrooms#create"
+      get "classrooms", to: "classrooms#get_classrooms"
+      put "classrooms/:id", to: "classrooms#update_classroom"
+      delete "classrooms/:id", to: "classrooms#delete_classroom"
     end
   end
 end

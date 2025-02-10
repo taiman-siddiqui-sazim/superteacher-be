@@ -1,17 +1,5 @@
-user = User.create!(
-  first_name: "John",
-  last_name: "Doe",
-  gender: "male",
-  email: "john.doe@example.com",
-  password: "Password1!",
-  user_type: "student"
-)
+subjects = %w[Physics Mathematics Chemistry Biology English Bangla]
 
-Student.create!(
-  phone: "1234567890",
-  address: "123 Main St",
-  education_level: "school",
-  medium: "english",
-  year: 10,
-  user: user
-)
+subjects.each do |subject|
+  Subject.find_or_create_by(subject: subject)
+end
