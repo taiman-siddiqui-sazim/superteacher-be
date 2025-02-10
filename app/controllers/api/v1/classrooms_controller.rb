@@ -14,68 +14,54 @@ module Api
       CLASSROOM_DELETION_FAIL = "Classroom deletion failed".freeze
 
       def create
-        teacher_id = doorkeeper_token.resource_owner_id
-        unless ::Users::User.exists?(id: teacher_id)
-          return error_response(message: "Teacher not found", status: :unprocessable_entity, error: CLASSROOM_CREATION_FAIL)
-        end
+        result = ::Classrooms::CreateClassroom.call(
+          teacher_id: doorkeeper_token.resource_owner_id,
+          classroom_params: classroom_params
+        )
 
-        classroom = Classrooms::Classroom.new(classroom_params.merge(teacher_id: teacher_id))
-
-        if classroom.save
-          success_response(data: classroom, message: CLASSROOM_CREATION_SUCCESS, status: :created)
+        if result.success?
+          success_response(data: result.classroom, message: CLASSROOM_CREATION_SUCCESS, status: :created)
         else
-          error_response(message: classroom.errors.full_messages, status: :unprocessable_entity, error: CLASSROOM_CREATION_FAIL)
+          error_response(message: result.message, status: result.status, error: CLASSROOM_CREATION_FAIL)
         end
       end
 
       def get_classrooms
-        teacher_id = doorkeeper_token.resource_owner_id
-        classrooms = Classrooms::Classroom.where(teacher_id: teacher_id)
+        result = ::Classrooms::GetClassrooms.call(
+          teacher_id: doorkeeper_token.resource_owner_id
+        )
 
-        if classrooms.any?
-          classrooms_data = classrooms.map do |classroom|
-            {
-              id: classroom.id,
-              title: classroom.title,
-              subject: classroom.subject,
-              class_time: classroom.class_time,
-              days_of_week: classroom.days_of_week,
-              teacher_id: classroom.teacher_id
-            }
-          end
-          success_response(data: classrooms_data, message: CLASSROOMS_RETRIEVED_SUCCESS)
+        if result.success?
+          success_response(data: result.classrooms, message: CLASSROOMS_RETRIEVED_SUCCESS)
         else
-          error_response(message: "No classrooms found", status: :not_found, error: CLASSROOMS_RETRIEVAL_FAIL)
+          error_response(message: result.message, status: result.status, error: CLASSROOMS_RETRIEVAL_FAIL)
         end
       end
 
       def update_classroom
-        teacher_id = doorkeeper_token.resource_owner_id
-        unless ::Users::User.exists?(id: teacher_id)
-          return error_response(message: "Teacher not found", status: :unprocessable_entity, error: CLASSROOM_UPDATE_FAIL)
-        end
+        result = ::Classrooms::UpdateClassroom.call(
+          teacher_id: doorkeeper_token.resource_owner_id,
+          classroom_id: params[:id],
+          classroom_params: classroom_params
+        )
 
-        classroom = Classrooms::Classroom.find_by(id: params[:id], teacher_id: teacher_id)
-
-        if classroom.nil?
-          error_response(message: "Classroom not found", status: :not_found, error: CLASSROOM_UPDATE_FAIL)
-        elsif classroom.update(classroom_params)
-          success_response(data: classroom, message: CLASSROOM_UPDATE_SUCCESS)
+        if result.success?
+          success_response(data: result.classroom, message: CLASSROOM_UPDATE_SUCCESS)
         else
-          error_response(message: classroom.errors.full_messages, status: :unprocessable_entity, error: CLASSROOM_UPDATE_FAIL)
+          error_response(message: result.message, status: result.status, error: CLASSROOM_UPDATE_FAIL)
         end
       end
 
       def delete_classroom
-        teacher_id = doorkeeper_token.resource_owner_id
-        classroom = Classrooms::Classroom.find_by(id: params[:id], teacher_id: teacher_id)
+        result = ::Classrooms::DeleteClassroom.call(
+          teacher_id: doorkeeper_token.resource_owner_id,
+          classroom_id: params[:id]
+        )
 
-        if classroom.nil?
-          error_response(message: "Classroom not found", status: :not_found, error: CLASSROOM_DELETION_FAIL)
-        elsif classroom.destroy
+        if result.success?
           success_response(data: {}, message: CLASSROOM_DELETION_SUCCESS)
         else
-          error_response(message: classroom.errors.full_messages, status: :unprocessable_entity, error: CLASSROOM_DELETION_FAIL)
+          error_response(message: result.message, status: result.status, error: CLASSROOM_DELETION_FAIL)
         end
       end
 
