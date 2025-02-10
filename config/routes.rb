@@ -30,13 +30,13 @@ Rails.application.routes.draw do
         post ":classroom_id/enroll_student", to: "classroom_students#enroll_student"
         get ":classroom_id/students", to: "classroom_students#students_in_classroom"
         delete ":classroom_id/unenroll_student/:user_id", to: "classroom_students#unenroll_student"
-        get "student_classes", to: "classroom_students#student_classes"
+        get "student_classrooms", to: "classroom_students#get_classrooms_for_student"
 
-        post "teacher", to: "classrooms#create"
-        get "", to: "classrooms#get_classrooms"
+        post "", to: "classrooms#create"
+        get "", to: "classrooms#get_classrooms_for_teacher"
         put ":id", to: "classrooms#update_classroom"
         delete ":id", to: "classrooms#delete_classroom"
-        get ":classroom_id/teacher", to: "classrooms#get_classroom_teacher"
+        get ":classroom_id/teacher", to: "classrooms#get_teacher_by_classroom_id"
       end
     end
   end

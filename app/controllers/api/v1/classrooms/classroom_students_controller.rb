@@ -3,13 +3,8 @@ module Api
     module Classrooms
       class ClassroomStudentsController < ApplicationController
         include ResponseHelper
+        include Constants::ClassroomConstants
         before_action :doorkeeper_authorize!
-
-        STUDENT_RETRIEVE_SUCCESS = "Students retrieved successfully".freeze
-        STUDENT_RETRIEVE_FAIL = "Student retrieval failed".freeze
-        STUDENT_ENROLLMENT_SUCCESS = "Student enrolled successfully".freeze
-        CLASSROOM_RETRIEVE_SUCCESS = "Classrooms retrieved successfully".freeze
-        CLASSROOM_RETRIEVE_FAIL = "Classroom retrieval failed".freeze
 
         def unenrolled_students
           result = ::Classrooms::GetUnenrolledStudents.call(classroom_id: params[:classroom_id])
@@ -27,7 +22,7 @@ module Api
           if result.success?
             success_response(data: result.classroom_student, message: STUDENT_ENROLLMENT_SUCCESS, status: :created)
           else
-            error_response(message: result.message, status: result.status, error: result.error)
+            error_response(message: result.message, status: result.status, error: STUDENT_ENROLLMENT_FAIL)
           end
         end
 
@@ -37,7 +32,7 @@ module Api
           if result.success?
             success_response(data: result.students, message: STUDENT_RETRIEVE_SUCCESS)
           else
-            error_response(message: result.message, status: result.status, error: result.error)
+            error_response(message: result.message, status: result.status, error: STUDENT_RETRIEVE_FAIL)
           end
         end
 
@@ -47,11 +42,11 @@ module Api
           if result.success?
             success_response(data: {}, message: result.message)
           else
-            error_response(message: result.message, status: result.status, error: result.error)
+            error_response(message: result.message, status: result.status, error: STUDENT_ENROLLMENT_FAIL)
           end
         end
 
-        def student_classes
+        def get_classrooms_for_student
           result = ::Classrooms::GetStudentClasses.call(user_id: doorkeeper_token.resource_owner_id)
 
           if result.success?

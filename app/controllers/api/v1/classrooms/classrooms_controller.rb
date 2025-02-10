@@ -3,16 +3,8 @@ module Api
     module Classrooms
       class ClassroomsController < ApplicationController
         include ResponseHelper
+        include Constants::ClassroomConstants
         before_action :doorkeeper_authorize!
-
-        CLASSROOM_CREATION_SUCCESS = "Classroom created successfully".freeze
-        CLASSROOM_CREATION_FAIL = "Classroom creation failed".freeze
-        CLASSROOMS_RETRIEVED_SUCCESS = "Classrooms retrieved successfully".freeze
-        CLASSROOMS_RETRIEVAL_FAIL = "Classrooms retrieval failed".freeze
-        CLASSROOM_UPDATE_SUCCESS = "Classroom updated successfully".freeze
-        CLASSROOM_UPDATE_FAIL = "Classroom update failed".freeze
-        CLASSROOM_DELETION_SUCCESS = "Classroom deleted successfully".freeze
-        CLASSROOM_DELETION_FAIL = "Classroom deletion failed".freeze
 
         def create
           result = ::Classrooms::CreateClassroom.call(
@@ -27,7 +19,7 @@ module Api
           end
         end
 
-        def get_classrooms
+        def get_classrooms_for_teacher
           result = ::Classrooms::GetClassrooms.call(
             teacher_id: doorkeeper_token.resource_owner_id
           )
@@ -66,13 +58,13 @@ module Api
           end
         end
 
-        def get_classroom_teacher
+        def get_teacher_by_classroom_id
           result = ::Classrooms::GetClassroomTeacher.call(classroom_id: params[:classroom_id])
 
           if result.success?
-            success_response(data: result.teacher, message: "Teacher retrieved successfully")
+            success_response(data: result.teacher, message: TEACHER_RETRIEVAL_SUCCESS)
           else
-            error_response(message: result.message, status: result.status, error: "Teacher retrieval failed")
+            error_response(message: result.message, status: result.status, error: TEACHER_RETRIEVAL_FAIL)
           end
         end
 

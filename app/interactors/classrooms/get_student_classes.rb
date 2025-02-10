@@ -1,9 +1,7 @@
 module Classrooms
     class GetStudentClasses
       include Interactor
-
-      USER_NOT_FOUND = "User not found".freeze
-      STUDENT_NOT_FOUND = "Student record not found".freeze
+      include Constants::ClassroomConstants
 
       def call
         user = Users::User.find_by(id: context.user_id)
@@ -13,10 +11,6 @@ module Classrooms
         end
 
         student = Users::Student.find_by(user_id: user.id)
-        unless student
-          context.fail!(message: STUDENT_NOT_FOUND, status: :not_found)
-          return
-        end
 
         classrooms = Classrooms::Classroom.joins(:classroom_students)
                                           .where(classroom_students: { student_id: student.id })
