@@ -8,6 +8,11 @@ module Constants
       ASSIGNMENT_DELETE_SUCCESS = "Assignment deleted successfully".freeze
       ASSIGNMENT_DELETE_FAIL = "Assignment deletion failed".freeze
       ASSIGNMENT_NOT_FOUND = "Assignment not found".freeze
+      ASSIGNMENTS_RETRIEVE_SUCCESS = "Assignments retrieved successfully".freeze
+      ASSIGNMENTS_RETRIEVE_FAIL = "Failed to retrieve assignments".freeze
+      ERROR_NO_ASSIGNMENTS = "NO_ASSIGNMENTS_FOUND".freeze
+      ASSIGNMENT_UPDATE_SUCCESS = "Assignment updated successfully".freeze
+      ASSIGNMENT_UPDATE_FAIL = "Assignment update failed".freeze
 
       PRESIGNED_URL_GENERATION_SUCCESS = "Presigned URLs generated successfully".freeze
       URL_GENERATION_FAIL = "URL generation failed".freeze

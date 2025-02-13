@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_08_114000) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_13_062840) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -18,11 +18,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_08_114000) do
     t.string "title"
     t.text "instruction"
     t.string "file_url"
-    t.date "due_date"
+    t.string "due_date"
     t.bigint "classroom_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "assignment_type", default: "assignment", null: false
     t.index ["classroom_id"], name: "index_assignments_on_classroom_id"
+    t.check_constraint "assignment_type::text = ANY (ARRAY['exam'::character varying, 'assignment'::character varying]::text[])", name: "valid_assignment_type"
   end
 
   create_table "classroom_students", force: :cascade do |t|

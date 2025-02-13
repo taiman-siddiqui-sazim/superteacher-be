@@ -39,6 +39,25 @@ module Api
           success_response(data: result.assignment, message: ASSIGNMENT_CREATION_SUCCESS)
         end
 
+        def get_assignments_by_classroom
+          result = ::Classwork::GetAssignments.call(
+            classroom_id: params[:classroom_id]
+          )
+
+          if result.success?
+            success_response(
+              data: result.assignments,
+              message: ASSIGNMENTS_RETRIEVE_SUCCESS
+            )
+          else
+            error_response(
+              message: result.message,
+              status: result.status,
+              error: ERROR_NO_ASSIGNMENTS
+            )
+          end
+        end
+
         def delete_assignment
           assignment = ::Classwork::Assignment.find_by(id: params[:id])
           return error_response(
@@ -65,6 +84,28 @@ module Api
             data: {},
             message: ASSIGNMENT_DELETE_SUCCESS
           )
+        end
+
+        def update_assignment_fields
+          assignment = ::Classwork::Assignment.find_by(id: params[:id])
+          return error_response(
+            message: ASSIGNMENT_NOT_FOUND,
+            status: :not_found,
+            error: ASSIGNMENT_UPDATE_FAIL
+          ) unless assignment
+
+          if assignment.update(update_assignment_params)
+            success_response(
+              data: assignment,
+              message: ASSIGNMENT_UPDATE_SUCCESS
+            )
+          else
+            error_response(
+              message: assignment.errors.full_messages.join(", "),
+              status: :unprocessable_entity,
+              error: ASSIGNMENT_UPDATE_FAIL
+            )
+          end
         end
 
         def update_file
@@ -116,6 +157,10 @@ module Api
         end
 
         def assignment_params
+          params.require(:assignment).permit(:title, :instruction, :due_date, :assignment_type)
+        end
+
+        def update_assignment_params
           params.require(:assignment).permit(:title, :instruction, :due_date)
         end
       end

@@ -16,6 +16,7 @@ module Classwork
           instruction: context.params[:instruction],
           due_date: context.params[:due_date],
           file_url: context.params[:file_url],
+          assignment_type: context.params[:assignment_type],
           classroom_id: context.classroom_id
         )
 

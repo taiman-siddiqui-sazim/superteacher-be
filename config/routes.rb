@@ -41,9 +41,11 @@ Rails.application.routes.draw do
 
       # Classwork routes
       namespace :classwork do
-        post "file_uploads", to: "file_uploads#create_url"
+        post "file-uploads", to: "file_uploads#create_url"
         post "assignments", to: "assignments#create_assignment"
+        get "assignments/:classroom_id", to: "assignments#get_assignments_by_classroom"
         post "assignments/:id/update_file", to: "assignments#update_file"
+        put "assignments/:id", to: "assignments#update_assignment_fields"
         delete "assignments/:id", to: "assignments#delete_assignment"
       end
     end
