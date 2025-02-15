@@ -47,6 +47,10 @@ Rails.application.routes.draw do
         post "assignments/:id/update_file", to: "assignments#update_file"
         put "assignments/:id", to: "assignments#update_assignment_fields"
         delete "assignments/:id", to: "assignments#delete_assignment"
+        post "assignments/:assignment_id/submissions", to: "submissions#create_submission"
+        put "assignments/submissions/:id", to: "submissions#update_submission"
+        get "assignments/:assignment_id/submissions", to: "submissions#get_assignment_submissions"
+        get "assignments/:assignment_id/submissions/:user_id", to: "submissions#get_submitted_assignment_by_user"
       end
     end
   end

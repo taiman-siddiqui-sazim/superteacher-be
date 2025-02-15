@@ -1,6 +1,7 @@
 module Classwork
   class Assignment < ApplicationRecord
     belongs_to :classroom, class_name: "Classrooms::Classroom"
+    has_many :submissions, class_name: "Classwork::Submission", foreign_key: :assignment_id, dependent: :destroy
 
     VALID_TYPES = [ "assignment", "exam" ].freeze
     DATETIME_FORMAT = /\A\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2}\z/

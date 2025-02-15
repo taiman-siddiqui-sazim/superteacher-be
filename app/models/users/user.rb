@@ -3,6 +3,7 @@ module Users
     has_one :student, class_name: "Users::Student", foreign_key: :user_id, dependent: :destroy
     has_one :teacher, class_name: "Users::Teacher", foreign_key: :user_id, dependent: :destroy
     has_many :classrooms, class_name: "Classrooms::Classroom", foreign_key: :teacher_id, dependent: :destroy
+    has_many :submissions, class_name: "Classwork::Submission", foreign_key: :user_id, dependent: :destroy
 
     has_secure_password
 

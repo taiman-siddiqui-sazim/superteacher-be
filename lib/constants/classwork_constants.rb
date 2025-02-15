@@ -24,5 +24,16 @@ module Constants
       INVALID_URL_FORMAT = "Invalid URL format".freeze
       MISSING_FILE_URL = "Missing file URL".freeze
       FILE_NOT_EXIST = "File does not exist for key".freeze
+
+      SUBMISSION_CREATION_SUCCESS = "Submission created successfully".freeze
+      SUBMISSION_CREATION_FAIL = "Failed to create submission".freeze
+      SUBMISSION_UPLOAD_FAIL = "Failed to upload submission file".freeze
+      SUBMISSION_INVALID_ASSIGNMENT = "Invalid assignment ID".freeze
+      SUBMISSION_UPDATE_SUCCESS = "Submission updated successfully".freeze
+      SUBMISSION_UPDATE_FAIL = "Failed to update submission".freeze
+      SUBMISSION_NOT_FOUND = "Submission not found".freeze
+      SUBMISSIONS_RETRIEVE_SUCCESS = "Submissions retrieved successfully".freeze
+      SUBMISSIONS_RETRIEVE_FAIL = "Failed to retrieve submissions".freeze
+      NO_SUBMISSIONS_FOUND = "No submissions found for this assignment".freeze
     end
 end
