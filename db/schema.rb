@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_14_143544) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_16_072029) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -46,6 +46,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_143544) do
     t.datetime "updated_at", null: false
     t.bigint "teacher_id", null: false
     t.index ["teacher_id"], name: "index_classrooms_on_teacher_id"
+  end
+
+  create_table "meet_links", force: :cascade do |t|
+    t.string "meet_link"
+    t.bigint "classroom_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["classroom_id"], name: "index_meet_links_on_classroom_id"
+    t.index ["meet_link"], name: "index_meet_links_on_meet_link", unique: true
   end
 
   create_table "messages", force: :cascade do |t|
@@ -172,6 +181,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_143544) do
   add_foreign_key "classroom_students", "classrooms"
   add_foreign_key "classroom_students", "students"
   add_foreign_key "classrooms", "users", column: "teacher_id"
+  add_foreign_key "meet_links", "classrooms"
   add_foreign_key "messages", "classrooms"
   add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"

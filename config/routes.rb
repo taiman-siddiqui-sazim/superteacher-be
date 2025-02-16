@@ -37,6 +37,10 @@ Rails.application.routes.draw do
         put ":id", to: "classrooms#update_classroom"
         delete ":id", to: "classrooms#delete_classroom"
         get ":classroom_id/teacher", to: "classrooms#get_teacher_by_classroom_id"
+        get ":id", to: "classrooms#get_classroom"
+        post ":id/meet_link", to: "classrooms#add_meet_link"
+        get ":id/meet_link", to: "classrooms#get_meet_link"
+        put ":id/meet_link", to: "classrooms#update_meet_link"
       end
 
       # Classwork routes
