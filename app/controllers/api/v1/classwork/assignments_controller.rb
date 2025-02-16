@@ -139,9 +139,12 @@ module Api
           })
           delete_result = file_uploads_controller.delete_file
 
-          message = delete_result[:success?] ?
-            FILE_UPDATE_SUCCESS :
-            "#{FILE_UPDATE_SUCCESS} (Warning: Failed to delete old file at #{old_file_url})"
+          if delete_result[:success?]
+            message = FILE_UPDATE_SUCCESS
+          else
+            Rails.logger.warn("Warning: Failed to delete old file at #{old_file_url}")
+            message = FILE_UPDATE_SUCCESS
+          end
 
           success_response(data: assignment, message: message)
         end
