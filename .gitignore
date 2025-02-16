@@ -28,5 +28,11 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
+# SSL certificates
+*.pem
+*.crt
+*.key
+/volume/cache/server.test.pem*
+
 # Ignore master key for decrypting credentials and more.
 /config/master.key
