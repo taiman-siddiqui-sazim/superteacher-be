@@ -56,16 +56,6 @@ module Api
           end
         end
 
-        def students_in_classroom
-          result = ::Classrooms::GetEnrolledStudents.call(classroom_id: params[:classroom_id])
-
-          if result.success?
-            success_response(data: result.students, message: STUDENT_RETRIEVE_SUCCESS)
-          else
-            error_response(message: result.message, status: result.status, error: result.error)
-          end
-        end
-
         def unenroll_student
           result = ::Classrooms::UnenrollStudent.call(user_id: params[:user_id], classroom_id: params[:classroom_id])
 
