@@ -41,7 +41,12 @@ Rails.application.routes.draw do
         post ":id/meet_link", to: "classrooms#add_meet_link"
         get ":id/meet_link", to: "classrooms#get_meet_link"
         put ":id/meet_link", to: "classrooms#update_meet_link"
+
+        get ":classroom_id/messages", to: "messages#index"
+        post ":classroom_id/messages", to: "messages#create"
       end
+
+    mount ActionCable.server => "/cable"
 
       # Classwork routes
       namespace :classwork do
