@@ -9,13 +9,13 @@ module Classrooms
           context.fail!(message: TEACHER_NOT_FOUND, status: :not_found)
         end
 
-      classroom = Classrooms::Classroom.new(context.classroom_params.merge(teacher_id: teacher_id))
+       classroom = Classrooms::Classroom.new(context.classroom_params.merge(teacher_id: teacher_id))
 
-      if classroom.save
+       if classroom.save
         context.classroom = classroom
-      else
+       else
         context.fail!(message: classroom.errors.full_messages, status: :unprocessable_entity)
-      end
+       end
     end
     end
 end
