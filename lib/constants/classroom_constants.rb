@@ -20,11 +20,22 @@ module Constants
       CLASSROOM_UPDATE_FAIL = "Classroom update failed".freeze
       CLASSROOM_DELETION_SUCCESS = "Classroom deleted successfully".freeze
       CLASSROOM_DELETION_FAIL = "Classroom deletion failed".freeze
+      CLASSROOM_RETRIEVE_SUCCESS = "Classroom retrieved successfully".freeze
+      CLASSROOM_RETRIEVE_FAIL = "Failed to retrieve classroom".freeze
       CLASSROOM_NOT_FOUND = "Classroom not found".freeze
       NO_CLASSROOMS_FOUND = "No classrooms found".freeze
 
       TEACHER_NOT_FOUND = "Teacher not found".freeze
       TEACHER_RETRIEVAL_SUCCESS = "Teacher retrieved successfully".freeze
       TEACHER_RETRIEVAL_FAIL = "Teacher retrieval failed".freeze
+
+      MEET_LINK_ADD_SUCCESS = "Meet link added successfully".freeze
+      MEET_LINK_ADD_FAIL = "Failed to add meet link".freeze
+      MEET_LINK_RETRIEVE_SUCCESS = "Meet link retrieved successfully".freeze
+      MEET_LINK_RETRIEVE_FAIL = "Failed to retrieve meet link".freeze
+      MEET_LINK_EXISTS = "Meet link already exists".freeze
+      MEET_LINK_NOT_FOUND = "Meet link not found".freeze
+      MEET_LINK_UPDATE_SUCCESS = "Meet link updated successfully".freeze
+      MEET_LINK_UPDATE_FAIL = "Meet link update failed".freeze
     end
 end
