@@ -68,6 +68,84 @@ module Api
           end
         end
 
+        def get_classroom
+          result = ::Classrooms::GetClassroom.call(
+            classroom_id: params[:id]
+          )
+
+          if result.success?
+            success_response(
+              data: result.classroom,
+              message: CLASSROOM_RETRIEVE_SUCCESS
+            )
+          else
+            error_response(
+              message: result.message,
+              status: result.status,
+              error: CLASSROOM_RETRIEVE_FAIL
+            )
+          end
+        end
+
+        def add_meet_link
+          result = ::Classrooms::AddMeetLink.call(
+            classroom_id: params[:id],
+            meet_link: params[:meet_link]
+          )
+
+          if result.success?
+            success_response(
+              data: { meet_link: result.meet_link },
+              message: MEET_LINK_ADD_SUCCESS
+            )
+          else
+            error_response(
+              message: result.message,
+              status: result.status,
+              error: MEET_LINK_ADD_FAIL
+            )
+          end
+        end
+
+        def get_meet_link
+          result = ::Classrooms::GetMeetLink.call(
+            classroom_id: params[:id]
+          )
+
+          if result.success?
+            success_response(
+              data: { meet_link: result.meet_link.meet_link },
+              message: MEET_LINK_RETRIEVE_SUCCESS
+            )
+          else
+            error_response(
+              message: result.message,
+              status: result.status,
+              error: MEET_LINK_RETRIEVE_FAIL
+            )
+          end
+        end
+
+        def update_meet_link
+          result = ::Classrooms::UpdateMeetLink.call(
+            classroom_id: params[:id],
+            meet_link: params[:meet_link]
+          )
+
+          if result.success?
+            success_response(
+              data: { meet_link: result.meet_link.meet_link },
+              message: MEET_LINK_UPDATE_SUCCESS
+            )
+          else
+            error_response(
+              message: result.message,
+              status: result.status,
+              error: MEET_LINK_UPDATE_FAIL
+            )
+          end
+        end
+
         private
 
         def classroom_params

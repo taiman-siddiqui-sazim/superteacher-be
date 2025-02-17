@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_13_062840) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_16_151906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -48,14 +48,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_13_062840) do
     t.index ["teacher_id"], name: "index_classrooms_on_teacher_id"
   end
 
+  create_table "meet_links", force: :cascade do |t|
+    t.string "meet_link"
+    t.bigint "classroom_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["classroom_id"], name: "index_meet_links_on_classroom_id"
+    t.index ["meet_link"], name: "index_meet_links_on_meet_link", unique: true
+  end
+
   create_table "messages", force: :cascade do |t|
-    t.text "content", null: false
-    t.string "sender_type", null: false
-    t.integer "sender_id", null: false
+    t.text "content"
+    t.string "download_url"
+    t.bigint "user_id", null: false
     t.bigint "classroom_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["classroom_id"], name: "index_messages_on_classroom_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -121,6 +131,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_13_062840) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "submissions", force: :cascade do |t|
+    t.bigint "assignment_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "submitted_at"
+    t.string "file_url"
+    t.boolean "is_late"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignment_id"], name: "index_submissions_on_assignment_id"
+    t.index ["user_id"], name: "index_submissions_on_user_id"
+  end
+
   create_table "teachers", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "major_subject", limit: 50, null: false
@@ -160,10 +182,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_13_062840) do
   add_foreign_key "classroom_students", "classrooms"
   add_foreign_key "classroom_students", "students"
   add_foreign_key "classrooms", "users", column: "teacher_id"
+  add_foreign_key "meet_links", "classrooms"
   add_foreign_key "messages", "classrooms"
-  add_foreign_key "messages", "users", column: "sender_id"
+  add_foreign_key "messages", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "students", "users"
+  add_foreign_key "submissions", "assignments"
+  add_foreign_key "submissions", "users"
   add_foreign_key "teachers", "users"
 end

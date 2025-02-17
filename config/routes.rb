@@ -37,7 +37,16 @@ Rails.application.routes.draw do
         put ":id", to: "classrooms#update_classroom"
         delete ":id", to: "classrooms#delete_classroom"
         get ":classroom_id/teacher", to: "classrooms#get_teacher_by_classroom_id"
+        get ":id", to: "classrooms#get_classroom"
+        post ":id/meet_link", to: "classrooms#add_meet_link"
+        get ":id/meet_link", to: "classrooms#get_meet_link"
+        put ":id/meet_link", to: "classrooms#update_meet_link"
+
+        get ":classroom_id/messages", to: "messages#index"
+        post ":classroom_id/messages", to: "messages#create"
       end
+
+    mount ActionCable.server => "/cable"
 
       # Classwork routes
       namespace :classwork do
@@ -47,6 +56,10 @@ Rails.application.routes.draw do
         post "assignments/:id/update_file", to: "assignments#update_file"
         put "assignments/:id", to: "assignments#update_assignment_fields"
         delete "assignments/:id", to: "assignments#delete_assignment"
+        post "assignments/:assignment_id/submissions", to: "submissions#create_submission"
+        put "assignments/submissions/:id", to: "submissions#update_submission"
+        get "assignments/:assignment_id/submissions", to: "submissions#get_assignment_submissions"
+        get "assignments/:assignment_id/submissions/:user_id", to: "submissions#get_submitted_assignment_by_user"
       end
     end
   end

@@ -4,6 +4,7 @@ module Api
       class AssignmentsController < ApplicationController
         include ResponseHelper
         include Constants::ClassworkConstants
+        include FileUploadable
         before_action :doorkeeper_authorize!
 
         def create_assignment
@@ -150,14 +151,6 @@ module Api
         end
 
         private
-
-        def initialize_file_uploads_controller(controller_params)
-          controller = FileUploadsController.new
-          controller.request = request
-          controller.response = response
-          controller.params = controller_params
-          controller
-        end
 
         def assignment_params
           params.require(:assignment).permit(:title, :instruction, :due_date, :assignment_type)
