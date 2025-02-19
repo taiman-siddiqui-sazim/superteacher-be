@@ -27,21 +27,10 @@ module Api
           end
 
           def create
-            message_result = ::Classrooms::CreateMessage.call(
-              content: params[:content],
-              user_id: params[:user_id],
-              classroom_id: params[:classroom_id]
-            )
-
-            return error_response(
-              message: message_result.message,
-              status: :unprocessable_entity,
-              error: MESSAGE_CREATION_FAIL
-            ) unless message_result.success?
+            file_url = nil
 
             if params[:file].present?
-              file_result = ::Classrooms::UpdateMessageWithFile.call(
-                message: message_result.message,
+              file_result = ::Classrooms::UploadMessageFile.call(
                 file: params[:file]
               )
 
@@ -50,20 +39,36 @@ module Api
                 status: file_result.status,
                 error: MESSAGE_CREATION_FAIL
               ) unless file_result.success?
+
+              file_url = file_result.file_url
             end
 
-            success_response(
-              data: message_result.message.as_json(include: {
-                user: {
-                  only: [ :id ],
-                  methods: [ :first_name, :last_name ]
-                }
-              }),
-              message: MESSAGE_CREATION_SUCCESS,
-              status: :created
+            message_result = ::Classrooms::CreateMessage.call(
+              content: params[:content],
+              user_id: params[:user_id],
+              classroom_id: params[:classroom_id],
+              download_url: file_url
             )
+
+            if message_result.success?
+              success_response(
+                data: message_result.message.as_json(include: {
+                  user: {
+                    only: [ :id ],
+                    methods: [ :first_name, :last_name, :user_type ]
+                  }
+                }),
+                message: MESSAGE_CREATION_SUCCESS,
+                status: :created
+              )
+            else
+              error_response(
+                message: message_result.message,
+                status: :unprocessable_entity,
+                error: MESSAGE_CREATION_FAIL
+              )
+            end
           rescue => e
-            message_result&.message&.destroy if message_result&.message.is_a?(::Classrooms::Message)
             error_response(
               message: e.message,
               status: :internal_server_error,

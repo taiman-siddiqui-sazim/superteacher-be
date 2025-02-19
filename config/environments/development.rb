@@ -79,4 +79,9 @@ Rails.application.configure do
     authentication:       "plain",
     enable_starttls_auto: true
   }
+
+  # Action Cable configuration
+  config.action_cable.url = "ws://localhost:3001/cable"
+  config.action_cable.allowed_request_origins = [ %r{http://localhost:\d+} ]
+  config.action_cable.disable_request_forgery_protection = true
 end

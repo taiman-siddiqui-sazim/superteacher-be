@@ -7,7 +7,8 @@ module Classrooms
         message = Classrooms::Message.new(
           content: context.content,
           user_id: context.user_id,
-          classroom_id: context.classroom_id
+          classroom_id: context.classroom_id,
+          download_url: context.download_url
         )
 
         unless message.save
@@ -25,7 +26,7 @@ module Classrooms
         })
 
         ActionCable.server.broadcast(
-          "classroom_chat_#{message.classroom_id}",
+          "classroom_chat_channel_#{message.classroom_id}",
           formatted_message
         )
 
