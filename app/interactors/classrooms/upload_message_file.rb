@@ -1,5 +1,5 @@
 module Classrooms
-    class UpdateMessageWithFile
+    class UploadMessageFile
       include Interactor
       include Constants::MessageConstants
 
@@ -13,13 +13,10 @@ module Classrooms
           action: :generate_presigned_url
         )
 
-        unless url_result.success?
-          context.message.destroy
-          context.fail!(
-            message: URL_GENERATION_FAIL,
-            status: :unprocessable_entity
-          )
-        end
+        context.fail!(
+          message: URL_GENERATION_FAIL,
+          status: :unprocessable_entity
+        ) unless url_result.success?
 
         upload_result = ::Classwork::FileUploads.call(
           file: context.file,
@@ -27,17 +24,13 @@ module Classrooms
           action: :upload_to_s3
         )
 
-        unless upload_result.success?
-          context.message.destroy
-          context.fail!(
-            message: ATTACHMENT_UPLOAD_FAIL,
-            status: :unprocessable_entity
-          )
-        end
+        context.fail!(
+          message: ATTACHMENT_UPLOAD_FAIL,
+          status: :unprocessable_entity
+        ) unless upload_result.success?
 
-        context.message.update!(download_url: upload_result.file_url)
+        context.file_url = upload_result.file_url
       rescue => e
-        context.message.destroy
         context.fail!(
           message: e.message,
           status: :internal_server_error
