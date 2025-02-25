@@ -24,8 +24,7 @@ module Classwork
         )
       end
 
-      submitted_at = Time.current
-
+      submitted_at = Time.current + 6.hours
       is_late = Submission.check_if_late?(submitted_at, assignment.due_date)
 
       submission = Submission.create!(

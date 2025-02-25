@@ -17,6 +17,9 @@ module Classwork
 
       def self.check_if_late?(submitted_at, due_date_string)
         due_date = parse_date_string(due_date_string)
+        submitted_at = DateTime.parse(submitted_at.to_s).strftime("%d/%m/%Y %H:%M")
+        submitted_at = parse_date_string(submitted_at)
+
         submitted_at > due_date
       rescue ArgumentError
         false

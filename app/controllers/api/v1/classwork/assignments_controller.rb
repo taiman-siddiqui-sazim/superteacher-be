@@ -88,22 +88,20 @@ module Api
         end
 
         def update_assignment_fields
-          assignment = ::Classwork::Assignment.find_by(id: params[:id])
-          return error_response(
-            message: ASSIGNMENT_NOT_FOUND,
-            status: :not_found,
-            error: ASSIGNMENT_UPDATE_FAIL
-          ) unless assignment
+          result = ::Classwork::UpdateAssignmentFields.call(
+            assignment_id: params[:id],
+            params: update_assignment_params
+          )
 
-          if assignment.update(update_assignment_params)
+          if result.success?
             success_response(
-              data: assignment,
+              data: result.assignment,
               message: ASSIGNMENT_UPDATE_SUCCESS
             )
           else
             error_response(
-              message: assignment.errors.full_messages.join(", "),
-              status: :unprocessable_entity,
+              message: result.message,
+              status: result.status,
               error: ASSIGNMENT_UPDATE_FAIL
             )
           end
@@ -116,6 +114,17 @@ module Api
             status: :not_found,
             error: ASSIGNMENT_CREATION_FAIL
           ) unless assignment
+
+          current_time = Time.current.in_time_zone("Dhaka")
+          past_due_date = ::Classwork::Submission.check_if_late?(current_time, assignment.due_date)
+
+          if past_due_date
+            return error_response(
+              message: ASSIGNMENT_UPDATE_PAST_DUE,
+              status: :unprocessable_entity,
+              error: FILE_UPDATE_FAIL
+            )
+          end
 
           old_file_url = assignment.file_url
 

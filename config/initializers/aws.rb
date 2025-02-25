@@ -8,4 +8,4 @@ Aws.config.update(
   region: "us-east-1"
 )
 
-S3_BUCKET = Aws::S3::Resource.new.bucket("superteacher-dev-bucket")
+S3_BUCKET = Aws::S3::Resource.new.bucket(ENV["AWS_BUCKET_NAME"])
