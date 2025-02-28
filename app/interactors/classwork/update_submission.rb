@@ -15,7 +15,7 @@ module Classwork
       private
 
       def update_submission
-        submitted_at = Time.current.in_time_zone("Dhaka")
+        submitted_at = Time.current.in_time_zone(DEFAULT_TIMEZONE)
         is_late = Submission.check_if_late?(submitted_at, context.submission.assignment.due_date)
 
         context.submission.update!(

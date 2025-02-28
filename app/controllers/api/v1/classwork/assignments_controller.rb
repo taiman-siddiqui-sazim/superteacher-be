@@ -115,7 +115,7 @@ module Api
             error: ASSIGNMENT_CREATION_FAIL
           ) unless assignment
 
-          current_time = Time.current.in_time_zone("Dhaka")
+          current_time = Time.current.in_time_zone(DEFAULT_TIMEZONE)
           past_due_date = ::Classwork::Submission.check_if_late?(current_time, assignment.due_date)
 
           if past_due_date

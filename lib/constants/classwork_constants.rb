@@ -37,5 +37,7 @@ module Constants
       SUBMISSIONS_RETRIEVE_SUCCESS = "Submissions retrieved successfully".freeze
       SUBMISSIONS_RETRIEVE_FAIL = "Failed to retrieve submissions".freeze
       NO_SUBMISSIONS_FOUND = "No submissions found for this assignment".freeze
+
+      DEFAULT_TIMEZONE = "Dhaka".freeze
     end
 end
