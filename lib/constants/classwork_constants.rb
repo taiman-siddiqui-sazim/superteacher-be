@@ -13,6 +13,8 @@ module Constants
       ERROR_NO_ASSIGNMENTS = "NO_ASSIGNMENTS_FOUND".freeze
       ASSIGNMENT_UPDATE_SUCCESS = "Assignment updated successfully".freeze
       ASSIGNMENT_UPDATE_FAIL = "Assignment update failed".freeze
+      ASSIGNMENT_UPDATE_PAST_DUE = "Cannot update assignment after due date".freeze
+      EXAM_UPDATE_PAST_DUE = "Cannot update exam after due date".freeze
 
       PRESIGNED_URL_GENERATION_SUCCESS = "Presigned URLs generated successfully".freeze
       URL_GENERATION_FAIL = "URL generation failed".freeze
@@ -35,5 +37,7 @@ module Constants
       SUBMISSIONS_RETRIEVE_SUCCESS = "Submissions retrieved successfully".freeze
       SUBMISSIONS_RETRIEVE_FAIL = "Failed to retrieve submissions".freeze
       NO_SUBMISSIONS_FOUND = "No submissions found for this assignment".freeze
+
+      DEFAULT_TIMEZONE = "Dhaka".freeze
     end
 end
