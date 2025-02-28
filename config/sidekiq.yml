@@ -1,0 +1,11 @@
+:queues:
+  - default
+  - mailers
+
+:scheduler:
+  :schedule:
+    exam_reminder:
+      cron: '0 */1 * * *'  # Runs every hour
+      class: Classrooms::ExamReminderJob
+      queue: default
+      description: "Check for exams due in 24 hours and create notifications"
