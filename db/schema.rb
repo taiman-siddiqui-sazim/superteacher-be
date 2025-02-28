@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_16_151906) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_26_092854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -66,6 +66,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_16_151906) do
     t.datetime "updated_at", null: false
     t.index ["classroom_id"], name: "index_messages_on_classroom_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "assignment_id", null: false
+    t.bigint "receiver_id", null: false
+    t.string "notification_type", null: false
+    t.string "title", null: false
+    t.text "message", null: false
+    t.boolean "is_read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "broadcast_at"
+    t.index ["assignment_id"], name: "index_notifications_on_assignment_id"
+    t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -185,6 +199,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_16_151906) do
   add_foreign_key "meet_links", "classrooms"
   add_foreign_key "messages", "classrooms"
   add_foreign_key "messages", "users"
+  add_foreign_key "notifications", "assignments"
+  add_foreign_key "notifications", "users", column: "receiver_id"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "students", "users"

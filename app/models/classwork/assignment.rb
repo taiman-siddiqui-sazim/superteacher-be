@@ -2,6 +2,7 @@ module Classwork
   class Assignment < ApplicationRecord
     belongs_to :classroom, class_name: "Classrooms::Classroom"
     has_many :submissions, class_name: "Classwork::Submission", foreign_key: :assignment_id, dependent: :destroy
+    has_many :notifications, class_name: "Classwork::Notification", dependent: :destroy
 
     VALID_TYPES = [ "assignment", "exam" ].freeze
     DATETIME_FORMAT = /\A\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2}\z/
@@ -13,6 +14,10 @@ module Classwork
     validates :assignment_type, presence: true, inclusion: { in: VALID_TYPES }
     validate :validate_due_date_format
     validate :validate_due_date_future
+
+    def classroom_users
+      classroom.users
+    end
 
     private
 
