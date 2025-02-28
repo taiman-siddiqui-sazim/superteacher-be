@@ -44,6 +44,10 @@ Rails.application.routes.draw do
 
         get ":classroom_id/messages", to: "messages#index"
         post ":classroom_id/messages", to: "messages#create"
+
+        get "notifications/:user_id", to: "notifications#get_user_notifications"
+        get "notifications/:user_id/unread", to: "notifications#get_unread_notifications_for_user"
+        put "notifications/mark_read", to: "notifications#update_notifications_read"
       end
 
       # Classwork routes
