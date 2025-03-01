@@ -37,5 +37,16 @@ module Constants
       MEET_LINK_NOT_FOUND = "Meet link not found".freeze
       MEET_LINK_UPDATE_SUCCESS = "Meet link updated successfully".freeze
       MEET_LINK_UPDATE_FAIL = "Meet link update failed".freeze
+
+      NOTIFICATION_RETRIEVAL_SUCCESS = "Notifications retrieved successfully".freeze
+      NOTIFICATION_RETRIEVAL_FAIL = "Failed to retrieve notifications".freeze
+      NOTIFICATION_UPDATE_SUCCESS = "Notifications marked as read successfully".freeze
+      NOTIFICATION_UPDATE_FAIL = "Failed to update notifications".freeze
+      NO_NOTIFICATION_IDS_PROVIDED = "No notification IDs provided".freeze
+      MISSING_NOTIFICATION_IDS = "Missing notification IDs".freeze
+      ASSIGNMENT_NOTIFICATION_SUCCESS = "Assignment notifications created successfully".freeze
+      ASSIGNMENT_NOTIFICATION_FAIL = "Failed to create assignment notifications".freeze
+      NOTIFICATION_DELETE_FAIL = "Failed to delete notifications".freeze
+      EXAM_NOTIFICATION_DELETE_SUCCESS = "Exam reminder notifications deleted successfully".freeze
     end
 end

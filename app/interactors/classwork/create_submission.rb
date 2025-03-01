@@ -24,8 +24,8 @@ module Classwork
         )
       end
 
-      submitted_at = Time.current + 6.hours
-      is_late = Submission.check_if_late?(submitted_at, assignment.due_date)
+      submitted_at = Time.current.in_time_zone(DEFAULT_TIMEZONE)
+      is_late = Submission.che ck_if_late?(submitted_at, assignment.due_date)
 
       submission = Submission.create!(
         assignment_id: context.assignment_id,

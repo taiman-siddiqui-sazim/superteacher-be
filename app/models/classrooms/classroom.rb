@@ -16,6 +16,11 @@ module Classrooms
     validate :subject_exists
     validate :valid_teacher
 
+    def users
+      student_user_ids = students.pluck(:user_id)
+      Users::User.where(id: [ teacher_id ] + student_user_ids)
+    end
+
     private
 
     def valid_days_of_week

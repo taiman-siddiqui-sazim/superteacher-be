@@ -5,6 +5,8 @@ module Api
         include ResponseHelper
         include Constants::ClassworkConstants
         include FileUploadable
+        include NotificationSender
+        include NotificationDeleter
         before_action :doorkeeper_authorize!
 
         def create_assignment
@@ -37,6 +39,9 @@ module Api
           end
 
           result.assignment.update!(file_url: upload_result[:data][:file_url])
+
+          create_notifications_for_assignment(result.assignment.id)
+
           success_response(data: result.assignment, message: ASSIGNMENT_CREATION_SUCCESS)
         end
 
@@ -94,6 +99,10 @@ module Api
           )
 
           if result.success?
+            if result.due_date_changed
+              delete_outdated_notifications(result.assignment.id)
+            end
+
             success_response(
               data: result.assignment,
               message: ASSIGNMENT_UPDATE_SUCCESS

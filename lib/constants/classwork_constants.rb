@@ -8,6 +8,7 @@ module Constants
       ASSIGNMENT_DELETE_SUCCESS = "Assignment deleted successfully".freeze
       ASSIGNMENT_DELETE_FAIL = "Assignment deletion failed".freeze
       ASSIGNMENT_NOT_FOUND = "Assignment not found".freeze
+      INVALID_ASSIGNMENT_ID = "Invalid assignment ID".freeze
       ASSIGNMENTS_RETRIEVE_SUCCESS = "Assignments retrieved successfully".freeze
       ASSIGNMENTS_RETRIEVE_FAIL = "Failed to retrieve assignments".freeze
       ERROR_NO_ASSIGNMENTS = "NO_ASSIGNMENTS_FOUND".freeze
@@ -15,6 +16,7 @@ module Constants
       ASSIGNMENT_UPDATE_FAIL = "Assignment update failed".freeze
       ASSIGNMENT_UPDATE_PAST_DUE = "Cannot update assignment after due date".freeze
       EXAM_UPDATE_PAST_DUE = "Cannot update exam after due date".freeze
+      MISSING_ASSIGNMENT_ID = "Missing assignment ID".freeze
 
       PRESIGNED_URL_GENERATION_SUCCESS = "Presigned URLs generated successfully".freeze
       URL_GENERATION_FAIL = "URL generation failed".freeze
@@ -39,5 +41,7 @@ module Constants
       NO_SUBMISSIONS_FOUND = "No submissions found for this assignment".freeze
 
       DEFAULT_TIMEZONE = "Dhaka".freeze
+      CLASSWORK_CREATION = "classwork_creation".freeze
+      EXAM_REMINDER = "exam_reminder".freeze
     end
 end
