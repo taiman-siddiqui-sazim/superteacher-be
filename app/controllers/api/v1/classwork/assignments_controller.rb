@@ -5,6 +5,8 @@ module Api
         include ResponseHelper
         include Constants::ClassworkConstants
         include FileUploadable
+        include NotificationSender
+        include NotificationDeleter
         before_action :doorkeeper_authorize!
 
         def create_assignment
@@ -37,6 +39,9 @@ module Api
           end
 
           result.assignment.update!(file_url: upload_result[:data][:file_url])
+
+          create_notifications_for_assignment(result.assignment.id)
+
           success_response(data: result.assignment, message: ASSIGNMENT_CREATION_SUCCESS)
         end
 
@@ -88,22 +93,24 @@ module Api
         end
 
         def update_assignment_fields
-          assignment = ::Classwork::Assignment.find_by(id: params[:id])
-          return error_response(
-            message: ASSIGNMENT_NOT_FOUND,
-            status: :not_found,
-            error: ASSIGNMENT_UPDATE_FAIL
-          ) unless assignment
+          result = ::Classwork::UpdateAssignmentFields.call(
+            assignment_id: params[:id],
+            params: update_assignment_params
+          )
 
-          if assignment.update(update_assignment_params)
+          if result.success?
+            if result.due_date_changed
+              delete_outdated_notifications(result.assignment.id)
+            end
+
             success_response(
-              data: assignment,
+              data: result.assignment,
               message: ASSIGNMENT_UPDATE_SUCCESS
             )
           else
             error_response(
-              message: assignment.errors.full_messages.join(", "),
-              status: :unprocessable_entity,
+              message: result.message,
+              status: result.status,
               error: ASSIGNMENT_UPDATE_FAIL
             )
           end
@@ -116,6 +123,17 @@ module Api
             status: :not_found,
             error: ASSIGNMENT_CREATION_FAIL
           ) unless assignment
+
+          current_time = Time.current.in_time_zone(DEFAULT_TIMEZONE)
+          past_due_date = ::Classwork::Submission.check_if_late?(current_time, assignment.due_date)
+
+          if past_due_date
+            return error_response(
+              message: ASSIGNMENT_UPDATE_PAST_DUE,
+              status: :unprocessable_entity,
+              error: FILE_UPDATE_FAIL
+            )
+          end
 
           old_file_url = assignment.file_url
 

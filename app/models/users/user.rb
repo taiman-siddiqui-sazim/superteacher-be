@@ -5,6 +5,7 @@ module Users
     has_many :classrooms, class_name: "Classrooms::Classroom", foreign_key: :teacher_id, dependent: :destroy
     has_many :submissions, class_name: "Classwork::Submission", foreign_key: :user_id, dependent: :destroy
     has_many :messages, class_name: "Classrooms::Message", dependent: :destroy
+    has_many :notifications, class_name: "Classwork::Notification", foreign_key: :receiver_id, dependent: :destroy
 
     has_secure_password
 

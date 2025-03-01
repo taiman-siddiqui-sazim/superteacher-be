@@ -21,8 +21,7 @@ module Classwork
     def generate_presigned_urls
       context.presigned_urls = context.files.map do |file|
         {
-          name: file[:name],
-          type: file[:type],
+          fileName: file[:name],
           signedUrl: generate_url(file, context.folder || "assignments")
         }
       end
@@ -30,10 +29,11 @@ module Classwork
 
     def generate_url(file, folder)
       key = "#{folder}/#{SecureRandom.uuid}/#{file[:name]}"
-      object = S3_BUCKET.object(key)
+      signer = Aws::S3::Presigner.new
 
-      object.presigned_url(
-        :put,
+      signer.presigned_url(:put_object,
+        bucket: ENV["AWS_BUCKET_NAME"],
+        key: key,
         expires_in: 3600,
         content_type: file[:type]
       )
@@ -51,18 +51,20 @@ module Classwork
 
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = false if uri.host == "localhost"
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE if uri.host == "localhost"
 
         response = http.request(request)
 
         if response.is_a?(Net::HTTPSuccess)
           context.file_url = clean_url.split("?").first
         else
+          Rails.logger.error("S3 Upload Failed: #{response.body}")
           context.fail!(message: "#{FILE_UPLOAD_FAIL} - Status: #{response.code}, Body: #{response.body}")
         end
-
       rescue URI::InvalidURIError => e
         context.fail!(message: "#{INVALID_URL_FORMAT}: #{e.message}")
       rescue StandardError => e
+        Rails.logger.error("File Upload Error: #{e.message}")
         context.fail!(message: "#{FILE_UPLOAD_FAIL}: #{e.message}")
       end
     end
@@ -81,17 +83,18 @@ module Classwork
       begin
         uri = URI(context.file_url)
         decoded_path = CGI.unescape(uri.path)
-        key = decoded_path.sub(/^\/[^\/]+\//, "")
+        bucket_name = ENV["AWS_BUCKET_NAME"]
+        key = decoded_path.sub(/^\/#{bucket_name}\//, "")
 
-        object = S3_BUCKET.object(key)
+        s3_client = Aws::S3::Client.new
+        s3_client.delete_object(
+          bucket: bucket_name,
+          key: key
+        )
 
-        unless object.exists?
-          return context.fail!(message: "#{FILE_NOT_EXIST}: #{key}")
-        end
-
-        object.delete
         context.success = true
       rescue Aws::S3::Errors::ServiceError => e
+        Rails.logger.error("S3 Delete Error: #{e.message}")
         context.fail!(message: "#{FILE_DELETE_FAIL}: #{e.message}")
       end
     end
