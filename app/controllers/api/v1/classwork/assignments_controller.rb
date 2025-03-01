@@ -6,6 +6,7 @@ module Api
         include Constants::ClassworkConstants
         include FileUploadable
         include NotificationSender
+        include NotificationDeleter
         before_action :doorkeeper_authorize!
 
         def create_assignment
@@ -98,6 +99,10 @@ module Api
           )
 
           if result.success?
+            if result.due_date_changed
+              delete_outdated_notifications(result.assignment.id)
+            end
+
             success_response(
               data: result.assignment,
               message: ASSIGNMENT_UPDATE_SUCCESS

@@ -99,6 +99,30 @@ module Api
             end
           end
 
+          def delete_updated_notifications
+            result = ::Classrooms::DeleteUpdatedNotifications.call(
+              assignment_id: params[:assignment_id]
+            )
+
+            if result.success?
+              success_response(
+                data: {
+                  deleted_count: result.deleted_count,
+                  assignment_id: params[:assignment_id]
+                },
+                message: EXAM_NOTIFICATION_DELETE_SUCCESS
+              )
+            else
+              error_status = result.message == MISSING_ASSIGNMENT_ID ? :bad_request : :internal_server_error
+
+              error_response(
+                message: result.message,
+                error: result.error,
+                status: error_status
+              )
+            end
+          end
+
           private
 
           def notification_params

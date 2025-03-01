@@ -16,6 +16,7 @@ module Constants
       ASSIGNMENT_UPDATE_FAIL = "Assignment update failed".freeze
       ASSIGNMENT_UPDATE_PAST_DUE = "Cannot update assignment after due date".freeze
       EXAM_UPDATE_PAST_DUE = "Cannot update exam after due date".freeze
+      MISSING_ASSIGNMENT_ID = "Missing assignment ID".freeze
 
       PRESIGNED_URL_GENERATION_SUCCESS = "Presigned URLs generated successfully".freeze
       URL_GENERATION_FAIL = "URL generation failed".freeze

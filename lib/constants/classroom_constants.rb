@@ -46,5 +46,7 @@ module Constants
       MISSING_NOTIFICATION_IDS = "Missing notification IDs".freeze
       ASSIGNMENT_NOTIFICATION_SUCCESS = "Assignment notifications created successfully".freeze
       ASSIGNMENT_NOTIFICATION_FAIL = "Failed to create assignment notifications".freeze
+      NOTIFICATION_DELETE_FAIL = "Failed to delete notifications".freeze
+      EXAM_NOTIFICATION_DELETE_SUCCESS = "Exam reminder notifications deleted successfully".freeze
     end
 end
