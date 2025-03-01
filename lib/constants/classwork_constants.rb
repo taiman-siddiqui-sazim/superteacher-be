@@ -8,6 +8,7 @@ module Constants
       ASSIGNMENT_DELETE_SUCCESS = "Assignment deleted successfully".freeze
       ASSIGNMENT_DELETE_FAIL = "Assignment deletion failed".freeze
       ASSIGNMENT_NOT_FOUND = "Assignment not found".freeze
+      INVALID_ASSIGNMENT_ID = "Invalid assignment ID".freeze
       ASSIGNMENTS_RETRIEVE_SUCCESS = "Assignments retrieved successfully".freeze
       ASSIGNMENTS_RETRIEVE_FAIL = "Failed to retrieve assignments".freeze
       ERROR_NO_ASSIGNMENTS = "NO_ASSIGNMENTS_FOUND".freeze
@@ -37,5 +38,9 @@ module Constants
       SUBMISSIONS_RETRIEVE_SUCCESS = "Submissions retrieved successfully".freeze
       SUBMISSIONS_RETRIEVE_FAIL = "Failed to retrieve submissions".freeze
       NO_SUBMISSIONS_FOUND = "No submissions found for this assignment".freeze
+
+      DEFAULT_TIMEZONE = "Dhaka".freeze
+      CLASSWORK_CREATION = "classwork_creation".freeze
+      EXAM_REMINDER = "exam_reminder".freeze
     end
 end

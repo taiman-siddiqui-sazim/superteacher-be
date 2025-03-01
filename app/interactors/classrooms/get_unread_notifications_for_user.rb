@@ -16,7 +16,7 @@ module Classrooms
       private
 
       def fetch_unread_notifications
-        ::Classwork::Notification
+        Classwork::Notification
           .includes(assignment: :classroom)
           .where(receiver_id: context.user_id, is_read: false)
           .order(created_at: :desc)

@@ -1,9 +1,10 @@
 module Classrooms
     class ExamReminderJob
       include Sidekiq::Job
+      include Constants::ClassworkConstants
 
       def perform
-        Rails.logger.info "Starting ExamReminderJob at #{Time.current}"
+        Rails.logger.info "Starting ExamReminderJob at #{Time.current + 6.hours}"
 
         start_time = Time.current.utc + 6.hours
         end_time = start_time + 24.hours
@@ -41,13 +42,13 @@ module Classrooms
           next if ::Classwork::Notification.already_notified?(
             assignment: exam,
             receiver: receiver,
-            notification_type: "exam_reminder"
+            notification_type: EXAM_REMINDER
           )
 
           notifications << ::Classwork::Notification.create!(
             assignment: exam,
             receiver: receiver,
-            notification_type: "exam_reminder",
+            notification_type: EXAM_REMINDER,
             title: "Upcoming #{exam.assignment_type.capitalize}",
             message: "#{exam.assignment_type.capitalize} '#{exam.title}' is available within 24 hours!"
           )
@@ -70,19 +71,19 @@ module Classrooms
         ActionCable.server.broadcast(
           "classroom_notifications_channel_#{exam.classroom_id}",
           {
-            type: "exam_reminder",
+            type: EXAM_REMINDER,
             exam_id: exam.id,
             notification_ids: notifications.map(&:id),
             classroom_id: exam.classroom_id,
             classroom_title: classroom_title,
             title: "Upcoming #{exam.assignment_type.capitalize}",
             message: "#{exam.assignment_type.capitalize} '#{exam.title}' is available within 24 hours!",
-            created_at: Time.current + 6.hours
+            created_at: Time.current.in_time_zone(DEFAULT_TIMEZONE)
           }
         )
 
         # Mark all notifications as broadcast
-        notifications.each { |n| n.update!(broadcast_at: Time.current + 6.hours) }
+        notifications.each { |n| n.update!(broadcast_at: Time.current.in_time_zone(DEFAULT_TIMEZONE)) }
         Rails.logger.info "Marked #{notifications.count} notifications as broadcast"
       end
     end

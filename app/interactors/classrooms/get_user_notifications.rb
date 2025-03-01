@@ -16,7 +16,7 @@ module Classrooms
       private
 
       def fetch_notifications
-        ::Classwork::Notification
+        Classwork::Notification
           .includes(assignment: :classroom)
           .where(receiver_id: context.user_id)
           .order(created_at: :desc)

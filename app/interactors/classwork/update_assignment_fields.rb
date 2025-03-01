@@ -12,7 +12,7 @@ module Classwork
         ) unless assignment
 
         if assignment.assignment_type == "exam"
-          current_time = Time.current.in_time_zone("Dhaka")
+          current_time = Time.current.in_time_zone(DEFAULT_TIMEZONE)
           past_due_date = Submission.check_if_late?(current_time, assignment.due_date)
 
           if past_due_date

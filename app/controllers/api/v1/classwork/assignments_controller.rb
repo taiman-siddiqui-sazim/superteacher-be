@@ -5,6 +5,7 @@ module Api
         include ResponseHelper
         include Constants::ClassworkConstants
         include FileUploadable
+        include NotificationSender
         before_action :doorkeeper_authorize!
 
         def create_assignment
@@ -37,6 +38,9 @@ module Api
           end
 
           result.assignment.update!(file_url: upload_result[:data][:file_url])
+
+          create_notifications_for_assignment(result.assignment.id)
+
           success_response(data: result.assignment, message: ASSIGNMENT_CREATION_SUCCESS)
         end
 
@@ -115,7 +119,7 @@ module Api
             error: ASSIGNMENT_CREATION_FAIL
           ) unless assignment
 
-          current_time = Time.current.in_time_zone("Dhaka")
+          current_time = Time.current.in_time_zone(DEFAULT_TIMEZONE)
           past_due_date = ::Classwork::Submission.check_if_late?(current_time, assignment.due_date)
 
           if past_due_date

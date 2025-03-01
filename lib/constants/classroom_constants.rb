@@ -44,5 +44,7 @@ module Constants
       NOTIFICATION_UPDATE_FAIL = "Failed to update notifications".freeze
       NO_NOTIFICATION_IDS_PROVIDED = "No notification IDs provided".freeze
       MISSING_NOTIFICATION_IDS = "Missing notification IDs".freeze
+      ASSIGNMENT_NOTIFICATION_SUCCESS = "Assignment notifications created successfully".freeze
+      ASSIGNMENT_NOTIFICATION_FAIL = "Failed to create assignment notifications".freeze
     end
 end
