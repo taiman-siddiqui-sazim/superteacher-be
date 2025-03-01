@@ -4,6 +4,7 @@ module Api
         class NotificationsController < ApplicationController
           include ResponseHelper
           include Constants::ClassroomConstants
+          include Constants::ClassworkConstants
           before_action :doorkeeper_authorize!
 
           def get_user_notifications
@@ -65,10 +66,67 @@ module Api
             end
           end
 
+          def create_assignment_notification
+            assignment_id = params[:assignment_id]
+            assignment = ::Classwork::Assignment.find_by(id: assignment_id)
+
+            unless assignment
+              return error_response(
+                message: ASSIGNMENT_NOT_FOUND,
+                error: INVALID_ASSIGNMENT_ID,
+                status: :not_found
+              )
+            end
+
+            result = ::Classrooms::CreateAssignmentNotification.call(
+              assignment: assignment
+            )
+
+            if result.success?
+              success_response(
+                data: {
+                  notification_count: result.notifications.count,
+                  notification_ids: result.notifications.map(&:id)
+                },
+                message: ASSIGNMENT_NOTIFICATION_SUCCESS
+              )
+            else
+              error_response(
+                message: result.message,
+                error: result.error,
+                status: :internal_server_error
+              )
+            end
+          end
+
+          def delete_updated_notifications
+            result = ::Classrooms::DeleteUpdatedNotifications.call(
+              assignment_id: params[:assignment_id]
+            )
+
+            if result.success?
+              success_response(
+                data: {
+                  deleted_count: result.deleted_count,
+                  assignment_id: params[:assignment_id]
+                },
+                message: EXAM_NOTIFICATION_DELETE_SUCCESS
+              )
+            else
+              error_status = result.message == MISSING_ASSIGNMENT_ID ? :bad_request : :internal_server_error
+
+              error_response(
+                message: result.message,
+                error: result.error,
+                status: error_status
+              )
+            end
+          end
+
           private
 
           def notification_params
-            params.permit(:user_id, classroom_ids: [], notification_ids: [])
+            params.permit(:user_id, :assignment_id, classroom_ids: [], notification_ids: [])
           end
         end
       end

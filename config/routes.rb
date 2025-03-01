@@ -48,6 +48,8 @@ Rails.application.routes.draw do
         get "notifications/:user_id", to: "notifications#get_user_notifications"
         get "notifications/:user_id/unread", to: "notifications#get_unread_notifications_for_user"
         put "notifications/mark_read", to: "notifications#update_notifications_read"
+        post "notifications/:assignment_id", to: "notifications#create_assignment_notification"
+        delete "notifications/:assignment_id", to: "notifications#delete_updated_notifications"
       end
 
       # Classwork routes

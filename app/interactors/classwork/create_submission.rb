@@ -24,7 +24,7 @@ module Classwork
         )
       end
 
-      submitted_at = Time.current.in_time_zone("Dhaka")
+      submitted_at = Time.current.in_time_zone(DEFAULT_TIMEZONE)
       is_late = Submission.che ck_if_late?(submitted_at, assignment.due_date)
 
       submission = Submission.create!(

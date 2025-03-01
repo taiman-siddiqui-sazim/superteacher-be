@@ -13,7 +13,7 @@ module Classrooms
           )
         end
 
-        updated_count = ::Classwork::Notification
+        updated_count = Classwork::Notification
           .where(id: notification_ids)
           .update_all(is_read: true)
 
