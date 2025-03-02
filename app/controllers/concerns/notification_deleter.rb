@@ -10,7 +10,7 @@ module NotificationDeleter
         host_with_port = request.host_with_port
         base_url = "#{protocol}#{host_with_port}"
 
-        uri = URI.parse("#{base_url}/api/v1/classrooms/notifications/#{assignment_id}")
+        uri = URI.parse("#{base_url}/api/v1/classrooms/notifications/assignments/#{assignment_id}")
 
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = (uri.scheme == "https")

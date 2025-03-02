@@ -48,13 +48,15 @@ Rails.application.routes.draw do
         get "notifications/:user_id", to: "notifications#get_user_notifications"
         get "notifications/:user_id/unread", to: "notifications#get_unread_notifications_for_user"
         put "notifications/mark_read", to: "notifications#update_notifications_read"
-        post "notifications/:assignment_id", to: "notifications#create_assignment_notification"
-        delete "notifications/:assignment_id", to: "notifications#delete_updated_notifications"
+        post "notifications/assignments/:assignment_id", to: "notifications#create_assignment_notification"
+        delete "notifications/assignments/:assignment_id", to: "notifications#delete_updated_notifications"
       end
 
       # Classwork routes
       namespace :classwork do
         post "file-uploads", to: "file_uploads#create_url"
+
+        # Assignment routes
         post "assignments", to: "assignments#create_assignment"
         get "assignments/:classroom_id", to: "assignments#get_assignments_by_classroom"
         post "assignments/:id/update_file", to: "assignments#update_file"
@@ -64,6 +66,13 @@ Rails.application.routes.draw do
         put "assignments/submissions/:id", to: "submissions#update_submission"
         get "assignments/:assignment_id/submissions", to: "submissions#get_assignment_submissions"
         get "assignments/:assignment_id/submissions/:user_id", to: "submissions#get_submitted_assignment_by_user"
+
+        # Material routes
+        post "classrooms/:classroom_id/materials", to: "materials#create_material"
+        get "classrooms/:classroom_id/materials", to: "materials#get_materials_by_classroom"
+        put "materials/:id", to: "materials#update_material_fields"
+        post "materials/:id/update_file", to: "materials#update_file"
+        delete "materials/:id", to: "materials#delete_material"
       end
     end
   end

@@ -42,6 +42,14 @@ module Api
 
           create_notifications_for_assignment(result.assignment.id)
 
+          email_result = ::Classwork::SendClassworkEmail.call(
+            assignment: result.assignment
+          )
+
+          if !email_result.success?
+            Rails.logger.warn("Failed to send assignment notification emails: #{email_result.error}")
+          end
+
           success_response(data: result.assignment, message: ASSIGNMENT_CREATION_SUCCESS)
         end
 
