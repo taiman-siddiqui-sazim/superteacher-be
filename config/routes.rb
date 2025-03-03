@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       namespace :users do
         # User routes
         get "me", to: "users#me"
+        get "profile", to: "users#get_user_profile"
         post "register/student", to: "users#create_student"
         post "register/teacher", to: "users#create_teacher"
       end
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
         post "passwords/forgot", to: "passwords#forgot_password"
         post "passwords/check_otp", to: "passwords#check_otp"
         post "passwords/reset", to: "passwords#reset_password"
+        post "passwords/change", to: "passwords#change_password"
       end
 
      # Classroom routes

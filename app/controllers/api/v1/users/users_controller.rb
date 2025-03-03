@@ -3,12 +3,8 @@ module Api
     module Users
       class UsersController < ApplicationController
         include ResponseHelper
+        include Constants::UserConstants
         before_action :doorkeeper_authorize!, except: [ :create_student, :create_teacher ]
-
-        USER_DATA_RETRIEVED = "User data retrieved successfully"
-        USER_DATA_NOT_RETRIEVED = "User data could not be retrieved"
-        USER_REGISTRATION_SUCCESSFUL = "User registered successfully"
-        USER_REGISTRATION_FAILED = "User registration failed"
 
         def me
           user = current_user
@@ -21,6 +17,23 @@ module Api
             error_response(
               message: [ USER_DATA_NOT_RETRIEVED ],
               status: :not_found,
+              error: ::BaseInteractor::NOT_FOUND_ERROR
+            )
+          end
+        end
+
+        def get_user_profile
+          result = ::Users::GetUserProfile.call(user: current_user)
+
+          if result.success?
+            success_response(
+              data: result.profile_data,
+              message: USER_PROFILE_RETRIEVED
+            )
+          else
+            error_response(
+              message: result.message,
+              status: result.status,
               error: ::BaseInteractor::NOT_FOUND_ERROR
             )
           end
