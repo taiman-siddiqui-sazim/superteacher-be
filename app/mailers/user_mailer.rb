@@ -18,4 +18,18 @@ class UserMailer < ApplicationMailer
         format.text { render "enroll_email" }
       end
     end
+
+    def classwork_email(user, classwork)
+      @user = user
+      @classwork = classwork
+
+      resource_type = classwork.is_a?(Classwork::Assignment) ? "assignment" : "material"
+
+      subject = "Classwork created in #{@classwork.classroom.title}"
+
+      mail(to: @user.email, subject: subject) do |format|
+        format.html { render "classwork_email" }
+        format.text { render "classwork_email" }
+      end
+    end
 end

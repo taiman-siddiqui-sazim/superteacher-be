@@ -22,7 +22,7 @@ module Classwork
           )
           return
         end
-      end
+        end
 
       original_due_date = assignment.due_date
 

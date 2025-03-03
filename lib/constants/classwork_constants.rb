@@ -43,5 +43,17 @@ module Constants
       DEFAULT_TIMEZONE = "Dhaka".freeze
       CLASSWORK_CREATION = "classwork_creation".freeze
       EXAM_REMINDER = "exam_reminder".freeze
+
+      MATERIAL_CREATION_SUCCESS = "Material created successfully".freeze
+      MATERIAL_CREATION_FAIL = "Failed to create material".freeze
+      MATERIALS_RETRIEVE_SUCCESS = "Materials retrieved successfully".freeze
+      MATERIALS_RETRIEVE_FAIL = "Failed to retrieve materials".freeze
+      ERROR_NO_MATERIALS = "No materials found".freeze
+      MATERIAL_DELETE_SUCCESS = "Material deleted successfully".freeze
+      MATERIAL_DELETE_FAIL = "Failed to delete material".freeze
+      MATERIAL_UPDATE_SUCCESS = "Material updated successfully".freeze
+      MATERIAL_UPDATE_FAIL = "Failed to update material".freeze
+      MATERIAL_NOT_FOUND = "Material not found".freeze
+      INVALID_MATERIAL_ID = "Invalid material ID".freeze
     end
 end
