@@ -1,5 +1,5 @@
 # spec/models/users/user_spec.rb
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Users::User, type: :model do
   describe "associations" do

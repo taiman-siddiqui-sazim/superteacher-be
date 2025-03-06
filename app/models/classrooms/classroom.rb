@@ -25,6 +25,8 @@ module Classrooms
 
     def valid_days_of_week
       valid_days = %w[sunday monday tuesday wednesday thursday friday saturday]
+      return unless days_of_week.is_a?(Array)
+
       if days_of_week.any? { |day| !valid_days.include?(day.downcase) }
         errors.add(:days_of_week, "must contain valid days of the week")
       end
